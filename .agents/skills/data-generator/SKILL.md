@@ -1,0 +1,99 @@
+---
+name: data-generator
+description: Extract the data keys needed by approved test cases and add them to the framework's data and label files without inventing values, grouping related data in objects. Use after test cases are approved, whenever a test case lists data required, when labels or messages from the FSD must be stored, or when a scenario fails because a data key or label is missing.
+---
+
+# Data generator
+
+Test data has two failure modes: missing (the test crashes) and invented (the test passes against the wrong thing). This skill removes the first and never causes the second: it adds every key the test cases need, and leaves a visible placeholder for any value it was not given.
+
+## Where things go
+
+| What | File |
+|---|---|
+| Environment and bank data (sandbox accounts, customers, beneficiaries and transfer inputs) | `src/data/{env}/{bank}/common.json` |
+| Data that differs per locale (address and phone formats, currency) | `src/data/{env}/{bank}/{locale}.json` |
+| UI text and messages | `src/labels/{bank}/{locale}.json` (en-in is the fallback) |
+| Base URL and API base URL per environment and bank | `src/config/environments/{env}.json`. **Not written by this skill**, see below |
+
+Use the effective `TEST_ENV`, `BANK`, `LOCALE` unless the task names others. Use lowercase locale filenames. Use the same runtime context for data preparation and test execution.
+
+**Why URLs are not this skill's job.** Test cases describe behaviour; they never say where the application lives. Base URLs and API base URLs are environment configuration that the team owns. They differ per environment and bank, and `apiBaseURL` is also what restricts API waits to your own backend. The agent cannot know them, and a guessed URL would point tests at the wrong system. So this skill never writes or edits that file. It checks effective configuration, including `BASE_URL` and `API_BASE_URL` overrides. If the config file or bank entry is absent, or the required portal URL is missing, invalid or still a `.invalid` placeholder, add a row to `data-requests.md` (group `config`, the file, what is missing) and block the affected context at checkpoint 2. Use the supplied UAT portal URL. Request an API URL only when the selected case needs an API call or wait. Never infer an API endpoint or block UI cases because an API URL is absent. Approved portal navigation paths live under `navigation` in the active bank data and are passed to the owning page.
+
+## Group related data in objects
+
+Data that describes one thing lives together in one object. The object is the unit that test cases, scenarios and steps refer to; the attributes are read from it inside the step definition.
+
+```json
+{
+  "credentials": { "customer": { "customerId": "__REQUIRED__", "password": "__REQUIRED__" } },
+  "accounts": { "source": { "accountNumber": "__REQUIRED__", "maskedNumber": "__REQUIRED__" } },
+  "beneficiaries": { "existing": { "accountNumber": "__REQUIRED__", "ifsc": "__REQUIRED__" } }
+}
+```
+
+Rules, with the reason for each:
+
+1. **One object per entity, named for its role.** `credentials.customer`, `beneficiaries.existing`, `accounts.source`. A reader (and a step like `Given The user is logged in as the "credentials.customer" user`) refers to the whole thing, so there is one name to remember instead of five.
+2. **Never flatten.** No JSON key that contains a dot (`"user.email": "..."`), and no sibling keys that spell out the grouping (`customerEmail`, `customerPassword`). Flat keys multiply, drift apart, and cannot be passed around as a unit.
+3. **Test cases and scenarios normally reference the full entity path** (`credentials.customer`, `beneficiaries.existing`), while existing steps may accept a short key with an explicit documented prefix. Reuse the existing binding contract. Do not introduce an ambiguous second resolution convention. Step definitions read the attributes (`creds.customerId`, `beneficiary.accountNumber`). Data required in a test case names the group and lists the attributes it needs.
+4. **A new attribute belongs inside its entity object**, not in a new top-level key. Check existing consumers first. `getByKey` rejects the whole resolved group when any child, including an array element, is pending. If a new pending attribute would block existing cases, use a meaningful sibling variant with its own readiness. Resolve a leaf only when that is the approved existing consumer contract.
+5. **Group by entity, not by data type.** Not `emails: {...}` and `passwords: {...}`; one `credentials.customer` holding both.
+6. **Variants of the same entity are sibling objects with identical attribute names** (`customer` and `anotherCustomer` both have `customerId` and `password`), so one step can serve every variant.
+7. **Keep it shallow**, about three levels: group, entity, attribute.
+8. **Placeholders are per attribute.** Write `{ "email": "__REQUIRED__", "password": "__REQUIRED__" }`, never `"__REQUIRED__"` in place of the whole object. Use `npm run agent:inventory -- pending` to discover placeholders, then review the keys actually consumed by the selected cases with getByKey/getLabel.
+9. **Sensitive attributes inside an object stay encrypted** (`enc:v1:`), exactly as before.
+10. **Existing flat keys are not rewritten silently.** Changing a structure breaks steps that read it. Report them in `data-requests.md` as a refactor suggestion and ask first.
+
+Labels are the exception. They stay flat camelCase with an area prefix (`sessionExpiredMessage`), because the labels loader returns a flat key-to-text map merged over the en-in fallback. Resolve consumed labels with `getLabel`. An exact translation assertion requires the approved key in the chosen locale file itself. A fallback value cannot prove that translation.
+
+## Procedure
+
+1. **See what exists.** Run `npm run agent:inventory -- data` and `npm run agent:inventory -- labels`. Inventory prints key paths, not secret values. Never open a data file to read values of fields that look encrypted or sensitive.
+2. **Collect what is needed.** Read "Data required" of every in-scope test case: each group and the attributes it needs. Add the messages and texts stated in expected results (these become labels).
+3. **Name the groups.** Role not value (`beneficiaries.existing`, not `beneficiaries.payeeByValue`). Reuse an existing group before creating a new one; if `beneficiaries.existing` exists, do not add `beneficiaries.duplicateExisting`. Missing attributes of an existing group are added inside it.
+4. **Add what is missing** following the value rules below. Do not overwrite or reorder existing entries.
+5. **Write `docs/agent-runs/<slug>/data-requests.md`:** group, attributes, file, why needed (test case IDs), status, who or what provides each value.
+6. **Gate.** Review every consumed data path, label, required localized value and auth-state prerequisite for the selected cases. Resolve missing values in data-requests.md before running those cases. Block only affected cases at CP2 and continue independent approved cases. Inventory pending is a discovery aid across contexts, not the runnable gate. Ask the named owner for values that cannot be verified or generated within the approved task.
+
+## Value rules
+
+| Kind of value | What to write |
+|---|---|
+| Stated in the FSD or test case (a rule, a limit, a message) | The value, and cite the source in data-requests.md |
+| Environment-specific identifier (account identifier, customer identifier, beneficiary or bank identifier) | Reuse verified target-context data or verify it through authorized discovery. Otherwise `"__REQUIRED__"` for that attribute and a request line |
+| Synthetic names, addresses or unique inputs | Generate only where the task explicitly permits synthetic input, using existing project tooling and the application validation rules. Persist reusable values and their source. Never invent a routable bank account, real customer or integration identifier |
+| Credentials, tokens, emails of real accounts | `"__REQUIRED__"` only. Ask the user to run `npm run secret:encrypt`, paste the `enc:v1:` output into the file, and never paste a secret into the chat. Never write plaintext |
+| UI text stated in the FSD (en-in) | Add the label key with the stated text |
+| UI text for other locales | Do not guess translations. List the missing keys in data-requests.md; the loader can fall back to en-in and warn, but an exact translation check remains blocked until its localized value exists |
+| Locale-specific data | Locale file only, same placeholder rules |
+
+Sensitive attributes including password, secret, token, email, customerId, accountNumber and PIN must end up as `enc:v1:` strings; `npm run secret:check` fails on plaintext.
+
+## Quality rules
+
+- Idempotent: running the skill twice produces no diff.
+- Keep the same intended label key set across locales. `Labels` is a runtime `Record<string, string>`, so TypeScript does not prove completeness. `getLabel` validates consumed merged keys. Review the actual locale file when the expected outcome requires a translation.
+- When a test case mutates shared data (a beneficiary, a transfer, an account), record ownership, setup, reset, cleanup and retry behavior in data-requests.md. Use approved dedicated accounts or approved unique synthetic inputs. Browser contexts alone do not isolate server-side state. Keep one worker until independent and concurrent runs demonstrate isolation.
+- Keep JSON formatting as described in coding-standards.
+
+## Example `data-requests.md`
+
+```markdown
+| Group | Attributes | File | Needed by | Status | Provided by |
+|---|---|---|---|---|---|
+| credentials.customer | customerId, password | src/data/staging/demo/common.json | RIB_TRF_001, 002 | needs values | User: run secret:encrypt, paste enc:v1 strings |
+| beneficiaries.existing | accountNumber | src/data/staging/demo/common.json | RIB_TRF_001 | needs value | QA lead: an owned sandbox account on the target environment |
+| beneficiaries.existing | displayName, ifsc | src/data/staging/demo/common.json | RIB_TRF_001 | added (FSD §3.1) | n/a |
+| config (staging, demo) | baseURL | src/config/environments/staging.json | all | needs values | Team: environment URLs |
+| label sessionExpiredMessage | en-in | src/labels/demo/en-in.json | RIB_ACC_002 | added (FSD §3.2) | n/a |
+| label sessionExpiredMessage | ar | src/labels/demo/ar.json | RIB_ACC_002 | needs value | Localisation owner |
+```
+
+## RIB rules
+
+Apply [the banking implementation rules](../framework-knowledge/references/banking-rules.md) for bank applicability, policy inputs, authentication, data protection, transaction reconciliation and module ownership.
+
+Keep account/customer identifiers as strings so leading zeros survive. Source IFSC and bank/account linkage from verified sandbox records. Test-format strings cannot prove routability or account ownership. Keep OTPs and challenge responses out of persisted ordinary fixtures. Amounts use plain decimal strings, with expected formatted text supplied separately. Policies live in `src/config/banks/<bank>.json` and require bank-owner input, not invented regulatory defaults.
+
+The bank settings file can contain only mutation permissions and an empty `policies` object. Add policies lazily from actual case needs. Future metadata and unused policy groups do not become CP2 blockers.

@@ -1,0 +1,5 @@
+{
+  "loginChallengeMessage": "__REQUIRED__",
+  "sessionExpiredMessage": "__REQUIRED__",
+  "transferExpectedStatus": "__REQUIRED__"
+}

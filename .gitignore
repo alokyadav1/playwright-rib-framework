@@ -1,0 +1,14 @@
+node_modules/
+.env
+.features-gen/
+.playwright-cli/
+.playwright/
+auth/
+*.auth-state.json
+/test-results/
+/playwright-report/
+/junit.xml
+/docs/agent-runs/
+/docs/snapshots/
+/downloads/
+/docs/agent-runs/

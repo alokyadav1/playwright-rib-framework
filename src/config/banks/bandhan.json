@@ -1,0 +1,7 @@
+{
+  "mutationPermissions": {
+    "securityChange": false,
+    "fundsMovement": false
+  },
+  "policies": {}
+}
