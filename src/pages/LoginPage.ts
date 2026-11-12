@@ -1,8 +1,8 @@
-import type { Locator, Page } from '@playwright/test';
-import { getLabel } from '../core/label-key.js';
-import type { Labels } from '../core/runtime.js';
-import loginLocators from '../locators/login.json' with { type: 'json' };
-import { BasePage } from './BasePage.js';
+import type { Locator, Page } from "@playwright/test";
+import { getLabel } from "../core/label-key.js";
+import type { Labels } from "../core/runtime.js";
+import loginLocators from "../locators/login.json" with { type: "json" };
+import { BasePage } from "./BasePage.js";
 
 export class LoginPage extends BasePage {
   constructor(
@@ -13,45 +13,47 @@ export class LoginPage extends BasePage {
   }
 
   get userIdInput(): Locator {
-    return this.page.getByRole('textbox', {
-      name: getLabel(this.labels, 'loginUserIdField'),
+    return this.page.getByRole("textbox", {
+      name: getLabel(this.labels, "loginUserIdField"),
       exact: true,
     });
   }
 
   get passwordInput(): Locator {
-    return this.page.getByRole('textbox', {
-      name: getLabel(this.labels, 'loginPasswordField'),
+    return this.page.getByRole("textbox", {
+      name: getLabel(this.labels, "loginPasswordField"),
       exact: true,
     });
   }
 
   get termsCheckbox(): Locator {
-    return this.page.getByRole('checkbox', {
-      name: getLabel(this.labels, 'loginTermsAcceptance'),
+    return this.page.getByRole("checkbox", {
+      name: getLabel(this.labels, "loginTermsAcceptance"),
       exact: true,
     });
   }
 
   get proceedButton(): Locator {
-    return this.page.getByRole('button', {
-      name: getLabel(this.labels, 'loginProceedButton'),
+    return this.page.getByRole("button", {
+      name: getLabel(this.labels, "loginProceedButton"),
       exact: true,
     });
   }
 
   get termsErrorModal(): Locator {
-    return this.page.getByRole('alert');
+    return this.page.getByRole("alert");
   }
 
   get termsErrorIcon(): Locator {
-    return this.element('termsErrorIconImg', this.termsErrorModal);
+    return this.element("termsErrorIconImg", this.termsErrorModal);
   }
 
   async open(): Promise<void> {
-    await this.page.context().grantPermissions(['geolocation']);
-    await this.page.goto('/', { waitUntil: 'domcontentloaded', timeout: 60_000 });
-    await this.userIdInput.waitFor({ state: 'visible', timeout: 60_000 });
+    await this.page.goto("/", {
+      waitUntil: "domcontentloaded",
+      timeout: 60_000,
+    });
+    await this.userIdInput.waitFor({ state: "visible", timeout: 60_000 });
   }
 
   async enterUserId(userId: string): Promise<void> {
@@ -75,16 +77,21 @@ export class LoginPage extends BasePage {
   }
 
   async clickOutsideTermsErrorModal(): Promise<void> {
-    await this.element('termsErrorModalViewport').click({ position: { x: 10, y: 10 } });
+    await this.element("termsErrorModalViewport").click({
+      position: { x: 10, y: 10 },
+    });
   }
 
   async pressEscape(): Promise<void> {
-    await this.page.keyboard.press('Escape');
+    await this.page.keyboard.press("Escape");
   }
 
   async selectTermsErrorOkay(labelKey: string): Promise<void> {
     await this.termsErrorModal
-      .getByRole('button', { name: getLabel(this.labels, labelKey), exact: true })
+      .getByRole("button", {
+        name: getLabel(this.labels, labelKey),
+        exact: true,
+      })
       .click();
   }
 }

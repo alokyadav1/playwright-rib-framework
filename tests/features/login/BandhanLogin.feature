@@ -1,4 +1,4 @@
-@login @prelogin
+@prelogin
 Feature: Bandhan Bank login
 
   Scenario: BND_LOG_002 - Verify Terms and Conditions are required before login
