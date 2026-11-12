@@ -1,0 +1,4 @@
+{
+  "termsErrorModalViewport": "#messageDialogBoxModalWindow > .modal-window-viewport",
+  "termsErrorIconImg": "img[src$=\"/images/message-dialog-box/error/error_img.svg\"]"
+}

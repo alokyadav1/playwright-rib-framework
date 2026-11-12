@@ -1,1 +1,8 @@
-{}
+{
+  "credentials": {
+    "registeredUser": {
+      "userId": "enc:v1:Xl+aNpJDPhH8U/nN93lrnKaq7nleGWZUN8cijMrbtxfo9dg="
+    },
+    "incorrectPassword": "enc:v1:jx3eWWp6ZC7vNEi8b7aLHo8U35rH1vHhVOzUP9iwIuoaM7JmAKt7"
+  }
+}

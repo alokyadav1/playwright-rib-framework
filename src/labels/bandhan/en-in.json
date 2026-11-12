@@ -1,4 +1,11 @@
 {
+  "loginUserIdField": "User ID*",
+  "loginPasswordField": "Password*",
+  "loginTermsAcceptance": "I agree to the Terms and Conditions of online banking",
+  "loginProceedButton": "Proceed",
+  "loginTermsAcceptanceError": "Please agree to the Terms and Conditions to proceed",
+  "loginErrorModalTitle": "Error",
+  "loginOkayButton": "Okay",
   "loginChallengeMessage": "__REQUIRED__",
   "sessionExpiredMessage": "__REQUIRED__",
   "transferExpectedStatus": "__REQUIRED__"
