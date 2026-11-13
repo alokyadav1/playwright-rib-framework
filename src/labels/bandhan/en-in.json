@@ -22,6 +22,7 @@
   "unlockInvalidPanMessage": "Please provide a valid PAN to proceed.",
   "unlockFetchErrorMessage": "Error in fetching data.",
   "unlockAlreadyUnlockedMessage": "User ID is already unlocked",
+  "unlockResourceNotFoundText": "Can't find resource",
   "unlockCustomerIdField": "Customer ID*",
   "unlockPanField": "PAN*",
   "unlockMothersMaidenNameField": "Mother's Maiden Name*",

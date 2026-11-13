@@ -73,4 +73,14 @@ export class UnlockAccessPage extends BasePage {
   async submitOtp(): Promise<void> {
     await this.otpSubmitButton.click();
   }
+
+  async enterOtp(otp: string): Promise<void> {
+    await this.otpInput.fill(otp);
+  }
+
+  resourceNotFoundMessage(messageKey: string): Locator {
+    return this.resultAlert.getByText(getLabel(this.labels, messageKey), {
+      exact: false,
+    });
+  }
 }

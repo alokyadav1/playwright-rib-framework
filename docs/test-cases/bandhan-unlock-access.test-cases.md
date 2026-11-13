@@ -1,10 +1,10 @@
 # Bandhan Bank Unlock Access test cases
 
 - **Source:** `docs/fsd/Bandhan_Bank_Unlock_Access_FSD.md`, version 1.1, 12 November 2026
-- **Scope:** The four intents in §4 only.
-- **Status:** Four case designs and proposed IDs approved by the user.
+- **Scope:** The four case IDs selected from §4; RIB_UNL_003 has the user-approved amendment documented below.
+- **Status:** Four case designs and IDs approved by the user. On 13 November 2026, the user approved removing icon outcomes from RIB_UNL_002 and RIB_UNL_004 and amending RIB_UNL_003 to check resource-not-found modal text after a generated six-digit OTP. FSD v1.1 remains unchanged; the former OBS-UNL-002 API/UI characterization is not covered by the amended case.
 - **Open questions:**
-  - NEEDS INPUT: The HTTP response assertion for RIB_UNL_003 remains blocked unless UI exposes the response state or API details are supplied. The response is an observation, not an expectation that UI errors remain silent.
+  - The amended RIB_UNL_003 modal text is based on the user-provided screenshot and has not been exercised in a scenario run.
 
 ## RIB_UNL_001 - Verify invalid PAN shows exact inline feedback
 
@@ -40,27 +40,27 @@
   4. The user completes OTP verification.
 - **Expected result**
   1. The system advances to OTP verification without rejecting the incorrect personal-detail value(s) before OTP. [OBS-UNL-001.1, FR-UNL-003.1]
-  2. After valid OTP verification, the system displays an Error modal with an error icon, title “Error”, `label unlockFetchErrorMessage` with exact text “Error in fetching data.”, and an Okay button. [OBS-UNL-001.2, FR-UNL-003.2]
-- **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep. Confirm how to identify the specified Error icon if semantic icon identity cannot be verified through the UI.
+  2. After valid OTP verification, the system displays an Error modal with title “Error”, `label unlockFetchErrorMessage` with exact text “Error in fetching data.”, and an Okay button. The error icon is excluded by user-approved amendment. [OBS-UNL-001.2, FR-UNL-003.2]
+- **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep.
 
-## RIB_UNL_003 - Characterize incorrect OTP response and UI feedback
+## RIB_UNL_003 - Verify resource not found modal after OTP submission
 
 - **Test Case ID** — RIB_UNL_003
-- **Title** — Characterize incorrect OTP response and UI feedback
-- **Requirement(s)** — OBS-UNL-002.1, OBS-UNL-002.2, FR-UNL-003.1
-- **Short description** — Submit an authorized incorrect OTP, inspect the reported `unLockUserId` response, and record any UI feedback without treating silence as a requirement.
+- **Title** — Verify resource not found modal after OTP submission
+- **Requirement(s)** — FR-UNL-003.1; USER-AMEND-UNL-003 (user-approved case amendment, 13 November 2026)
+- **Short description** — Submit a generated six-digit OTP for the approved unlock profile and verify the specified resource-not-found text in the Error modal.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT. This is the user-approved runtime context; the FSD source records BANK=demo.
-- **Preconditions** — An owner-approved UAT profile can reach OTP verification. An approved incorrect-OTP procedure and browser-network evidence source are available.
-- **Data required** — `unlockAccess.incorrectOtpCase` (owner-approved test profile and approved incorrect-OTP procedure; do not store a reusable OTP); approved browser-network evidence source for `unLockUserId`.
+- **Preconditions** — The owner-approved `unlockAccess.incorrectOtpCase` profile can reach OTP verification.
+- **Data required** — `unlockAccess.incorrectOtpCase` (owner-approved profile; sensitive values stay in an approved encrypted local source); `label unlockResourceNotFoundText` (substring supplied by the user and shown in the attached modal screenshot).
 - **Steps**
-  1. The user enters the owner-approved details and advances to OTP verification.
-  2. The user enters the owner-approved incorrect OTP.
-  3. The user submits the OTP.
-  4. The user records the observed UI feedback and the corresponding `unLockUserId` response.
+  1. The user enters the approved profile details.
+  2. The user selects Continue and reaches OTP verification.
+  3. The user enters a generated random six-digit OTP without waiting for manual entry.
+  4. The user submits the OTP.
 - **Expected result**
-  1. The `unLockUserId` response is HTTP 417 and contains `result: SUCCESSFUL` with nested `title: Invalid OTP`, `detail: Invalid OTP`, `code: DIGX_TFA_0004`, and `type: ERROR`. The outer result is not evidence of a successful unlock. [OBS-UNL-002.1]
-  2. The UI feedback is recorded as observed; no assertion requires the UI to remain silent. [OBS-UNL-002.2]
-- **Open items** — The existing `credentials.registeredUser` group has only User ID/password and is not used as the unlock profile. The HTTP response assertion is blocked unless the response state can be verified through the UI or API details are provided.
+  1. The system opens OTP verification after Continue. [FR-UNL-003.1]
+  2. After OTP submission, the Error modal displays text containing `label unlockResourceNotFoundText` (“Can't find resource”). No other modal text, icon, or API response is asserted. [USER-AMEND-UNL-003]
+- **Open items** — The original FSD observations OBS-UNL-002.1 and OBS-UNL-002.2 are not covered by this amended case.
 
 ## RIB_UNL_004 - Verify already-unlocked user sees the information modal
 
@@ -78,5 +78,5 @@
   4. The user completes OTP verification.
 - **Expected result**
   1. The system follows the OTP flow without an earlier already-unlocked check. [FR-UNL-003.1, FR-UNL-004.1]
-  2. After valid verification, the system displays an information modal with an information icon, `label unlockAlreadyUnlockedMessage` with exact text “User ID is already unlocked”, a Continue to Login button, and a close icon. [FR-UNL-003.2, FR-UNL-004.2]
-- **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep. Confirm the specified information and close icons if semantic identity cannot be verified through the UI.
+  2. After valid verification, the system displays an information modal with `label unlockAlreadyUnlockedMessage` with exact text “User ID is already unlocked” and a Continue to Login button. The information and close icons are excluded by user-approved amendment. [FR-UNL-003.2, FR-UNL-004.2]
+- **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep.

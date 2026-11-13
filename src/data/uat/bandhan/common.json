@@ -28,10 +28,10 @@
       "mothersMaidenName": "Durga"
     },
     "incorrectOtpCase": {
-      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
-      "dateOfBirth": "04/01/1971",
-      "pan": "enc:v1:vfZGXIQH6yRTdIMGp2uo3tEsvETnVH+/RZyYUK6FxMaQi7M6glY=",
-      "mothersMaidenName": "BRATATI KARMAKAR"
+      "customerId": "enc:v1:gm7rrJJmwO90Xo8qsI9mcg1RmYDwKmM4VanM3X4Pk1kycuZoAg==",
+      "dateOfBirth": "01/01/1999",
+      "pan": "enc:v1:KQqJxRDKeP9bqLyXb6O3AU5/CQAhixHETH/fgy21o2ikoz17Skw=",
+      "mothersMaidenName": "Priyanka"
     },
     "alreadyUnlockedUser": {
       "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",

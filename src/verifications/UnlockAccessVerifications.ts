@@ -75,4 +75,10 @@ export class UnlockAccessVerifications {
       }),
     ).toBeVisible();
   }
+
+  async showsResourceNotFoundMessage(messageKey: string): Promise<void> {
+    await expect(
+      this.unlockAccess.resourceNotFoundMessage(messageKey),
+    ).toBeVisible({ timeout: 60_000 });
+  }
 }
