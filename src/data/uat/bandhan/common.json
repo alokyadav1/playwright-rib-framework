@@ -1,12 +1,12 @@
 {
   "credentials": {
     "registeredUser": {
-      "userId": "enc:v1:Xl+aNpJDPhH8U/nN93lrnKaq7nleGWZUN8cijMrbtxfo9dg=",
+      "userId": "enc:v1:UVKIt8I9kz87+vX8Qqj/0uVHq55kFa8AJv/2aG3sjcA/1IiTtHw=",
       "password": "enc:v1:CG/7rMta52/B6lUI8u/TW3/TQv1MCyOMLcJb8Ho3AgJO/lUBlg=="
     },
     "incorrectPassword": "enc:v1:jx3eWWp6ZC7vNEi8b7aLHo8U35rH1vHhVOzUP9iwIuoaM7JmAKt7"
   },
-  "userIds": {
+  "boundaryInputs": {
     "boundarySamples": {
       "length4": "AAAA",
       "length5": "AAAAA",

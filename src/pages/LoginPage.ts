@@ -10,7 +10,13 @@ export class LoginPage extends BasePage {
   readonly termsCheckbox: Locator;
   readonly proceedBtn: Locator;
   readonly loginErrorAlert: Locator;
-  readonly termsErrorImg: Locator;
+  readonly errorModalImg: Locator;
+  readonly otpHeading: Locator;
+  readonly challengeMessage: Locator;
+  readonly otpInput: Locator;
+  readonly otpSubmitBtn: Locator;
+  readonly homeNavigation: Locator;
+  readonly logoutControl: Locator;
 
   constructor(page: Page, private readonly labels: Labels) {
     super(page, loginLocators);
@@ -31,7 +37,31 @@ export class LoginPage extends BasePage {
       exact: true,
     });
     this.loginErrorAlert = page.getByRole('alert');
-    this.termsErrorImg = this.element('termsErrorImg');
+    this.errorModalImg = this.element('errorModalImg');
+    this.otpHeading = page.getByRole('heading', {
+      name: getLabel(labels, 'loginOtpHeading'),
+      exact: true,
+    });
+    this.challengeMessage = page.getByText(
+      getLabel(labels, 'loginChallengeMessage'),
+      { exact: true },
+    );
+    this.otpInput = page.getByRole('textbox', {
+      name: getLabel(labels, 'loginOtpField'),
+      exact: true,
+    });
+    this.otpSubmitBtn = page.getByRole('button', {
+      name: getLabel(labels, 'loginOtpSubmitButton'),
+      exact: true,
+    });
+    this.homeNavigation = page.getByRole('link', {
+      name: getLabel(labels, 'loginHomeNavigation'),
+      exact: true,
+    });
+    this.logoutControl = page.getByRole('button', {
+      name: getLabel(labels, 'loginLogoutControl'),
+      exact: true,
+    });
   }
 
   async openLoginPage(): Promise<void> {
@@ -56,6 +86,18 @@ export class LoginPage extends BasePage {
 
   async focusPassword(): Promise<void> {
     await this.passwordInput.click();
+  }
+
+  async enterOtp(otp: string): Promise<void> {
+    await this.otpInput.fill(otp);
+  }
+
+  async submitOtp(): Promise<void> {
+    await this.otpSubmitBtn.click();
+  }
+
+  async waitForManualOtpCompletion(): Promise<void> {
+    await this.homeNavigation.waitFor({ state: 'visible', timeout: 60_000 });
   }
 
   userIdFormatMessage(labelKey: string): Locator {

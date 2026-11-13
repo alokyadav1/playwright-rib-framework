@@ -1,6 +1,6 @@
 # Bandhan Bank Login requirements
 
-- **Source:** `docs/fsd/Bandhan_Bank_Login_FSD.md`, version 1.7, 12 November 2026
+- **Source:** `docs/fsd/Bandhan_Bank_Login_FSD.md`, version 1.9, 13 November 2026
 - **Scope:** Only the five intents in §6 are selected for this POC. Other requirements remain outside this case set.
 - **Applicability:** UAT, BANK=bandhan, LOCALE=en-in; no compliance coverage claimed.
 
@@ -27,7 +27,8 @@
 | FR-LOG-011 | §2 | User ID blur feedback follows the stated interaction history and exact messages. | Validation | Testable; selected by RIB_LOG_006 |
 | FR-LOG-012 | §2 | Proceed remains enabled regardless of input validity or terms acceptance. | UI | Testable; selected by RIB_LOG_002 |
 | FR-LOG-013 | §5 | OTP page shows the specified Login heading, instruction, OTP field, and Submit control. | UI | Testable; selected by RIB_LOG_001 |
-| OBS-LOG-001 | §5 | Incorrect OTP submission is reported to return HTTP 417 with no visible UI feedback. | Observation | Partly testable; selected by RIB_LOG_007, pending authorized invalid-OTP input and request identification |
+| FR-LOG-014 | §5 | A valid OTP is a six-digit number; the OTP input field allows a maximum of six digits. | Validation | Partly covered by RIB_LOG_001's valid six-digit OTP entry; maximum-length enforcement is not asserted by the selected intent |
+| OBS-LOG-001 | §5 | Incorrect OTP submission displays an Error modal with an error icon, title Error, message “Invalid OTP”, and Okay button. The related API response is not asserted. | UI observation | Testable; selected by RIB_LOG_007; user approved a runtime-generated six-digit invalid value held in memory |
 
 ## Selected-scope coverage
 
@@ -41,6 +42,7 @@
 | FR-LOG-011 | RIB_LOG_006 | Boundary lengths follow the specified blur behavior. |
 | FR-LOG-012 | RIB_LOG_002 | Proceed is enabled before submission. |
 | FR-LOG-013 | RIB_LOG_001 | OTP verification screen shows its specified controls and instruction. |
-| OBS-LOG-001 | RIB_LOG_007 | Characterize the reported response and missing UI feedback; this is not a desired-behavior requirement. |
+| FR-LOG-014 | RIB_LOG_001 | The valid OTP entered during the login flow is six digits; maximum-length enforcement is not directly asserted. |
+| OBS-LOG-001 | RIB_LOG_007 | Verify the reported incorrect-OTP Error modal; do not assert API status or payload. |
 
 All other rows are outside the explicitly selected five-case POC. They are not added as cases.

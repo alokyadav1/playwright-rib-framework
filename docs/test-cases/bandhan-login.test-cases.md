@@ -1,31 +1,31 @@
 # Bandhan Bank Login test cases
 
-- **Source:** `docs/fsd/Bandhan_Bank_Login_FSD.md`, version 1.7, 12 November 2026
+- **Source:** `docs/fsd/Bandhan_Bank_Login_FSD.md`, version 1.9, 13 November 2026
 - **Scope:** The five intents in §6 only.
-- **Status:** Approved by the user. IDs RIB_LOG_006 and RIB_LOG_007 were approved as proposed.
-- **Open questions:** CP2 inputs remain for secured credentials and invalid OTP request identification.
+- **Status:** All five case designs are approved, including the revised RIB_LOG_007 modal expectation.
+- **Open questions:** The user confirmed `credentials.registeredUser.password` is the intended key but reports the value is incorrect; manual UAT login currently does not reach OTP. The account owner must verify the encrypted local value and confirm manual login reaches OTP before retrying.
 
 ## RIB_LOG_001 - Verify valid credentials and manual OTP reach Home Dashboard
 
 - **Test Case ID** — RIB_LOG_001
 - **Title** — Verify valid credentials and manual OTP reach Home Dashboard
-- **Requirement(s)** — FR-LOG-006, FR-LOG-013
+- **Requirement(s)** — FR-LOG-006, FR-LOG-013, FR-LOG-014
 - **Short description** — Sign in with an authorized account, enter its received OTP manually, and verify the authenticated destination.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT; registered customer.
 - **Preconditions** — Login page is accessible. Authorized customer credentials and access to the registered OTP channel are available. The OTP is obtained during execution and is not stored as a reusable fixture.
-- **Data required** — `credentials.registeredUser` (registered User ID and password; sensitive values held in approved encrypted local data); access to the registered OTP channel for a valid one-time code.
+- **Data required** — `credentials.registeredUser` (registered User ID and password; sensitive values held in approved encrypted local data); access to the registered OTP channel for a valid six-digit OTP.
 - **Steps**
   1. The user opens the login page and uses the User ID method.
   2. The user enters the registered User ID and its password.
   3. The user accepts the Terms and Conditions.
   4. The user selects Proceed.
   5. The user verifies the OTP page and its specified controls.
-  6. The user manually enters the valid OTP received through the registered channel.
+  6. The user manually enters the valid six-digit OTP received through the registered channel.
   7. The user selects Submit.
 - **Expected result**
   1. The system opens the Login OTP page with the specified instruction, Enter OTP field, and Submit control. [FR-LOG-013]
   2. After valid OTP verification, the system redirects the user to Home Dashboard. [FR-LOG-006]
-- **Open items** — `NEEDS INPUT: Confirm the existing local registered-user fixture is authorized for UAT and provide access to its OTP channel (bank test-environment owner)`.
+- **Open items** — The user confirmed `credentials.registeredUser.password` is the intended key, but manual login currently does not reach OTP. Verify the encrypted local value and account readiness before retrying.
 
 ## RIB_LOG_002 - Verify unchecked terms show the specified Error modal
 
@@ -63,17 +63,17 @@
 - **Expected result**
   1. The system displays the invalid credentials modal with heading “Uh-oh! Looks like the credentials entered are incorrect”, supporting text “Please check the entered details and try again.”, and a Try Again button. [FR-LOG-010.1]
   2. Login does not complete and the user remains on the login page. [FR-LOG-010.1]
-- **Open items** — `NEEDS INPUT: Owner-provisioned test account and secured nonempty incorrect-password value (bank test-environment owner)`.
+- **Open items** — The user confirmed the account and incorrect-password value are suitable and verified this case passed after unlock. The prior automated run displayed a temporary account-lock alert.
 
 ## RIB_LOG_006 - Verify User ID boundary-length blur validation
 
-- **Test Case ID** — RIB_LOG_006 (proposed)
+- **Test Case ID** — RIB_LOG_006
 - **Title** — Verify User ID boundary-length blur validation
 - **Requirement(s)** — FR-LOG-003, FR-LOG-011
 - **Short description** — Blur User ID values at the four specified boundary lengths and verify the resulting format feedback.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank login page.
 - **Preconditions** — Login page is accessible. The test uses nonempty alphanumeric inputs and does not submit credentials.
-- **Data required** — `userIds.boundarySamples` (synthetic letters-only values made from `A` repeated to lengths 4, 5, 50, and 51; no account registration is needed for blur-only checks).
+- **Data required** — `boundaryInputs.boundarySamples` (synthetic letters-only values made from `A` repeated to lengths 4, 5, 50, and 51; no account registration is needed for blur-only checks).
 - **Steps**
   1. The user enters the example User ID value.
   2. The user moves focus to Password.
@@ -84,20 +84,19 @@
   4. For length 51, the system displays “Only Alpha numeric values and length 5-50 are allowed”. [FR-LOG-003, FR-LOG-011]
 - **Open items** — None; the user approved these synthetic boundary samples.
 
-## RIB_LOG_007 - Characterize incorrect OTP response and UI feedback
+## RIB_LOG_007 - Verify incorrect OTP displays Error modal
 
-- **Test Case ID** — RIB_LOG_007 (proposed)
-- **Title** — Characterize incorrect OTP response and UI feedback
+- **Test Case ID** — RIB_LOG_007
+- **Title** — Verify incorrect OTP displays Error modal
 - **Requirement(s)** — OBS-LOG-001
-- **Short description** — Submit an authorized invalid OTP and characterize the associated response and visible UI behavior.
-- **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT; characterization of reported behavior, not an assertion of desired behavior.
-- **Preconditions** — Login page is accessible. An authorized test account can reach OTP verification, and the test environment permits use of an invalid OTP.
-- **Data required** — `credentials.registeredUser` (authorized registered User ID and password, held in approved encrypted local data); an authorized invalid OTP supplied through the approved test-environment method, never persisted as a reusable fixture.
+- **Short description** — Submit a test-only incorrect OTP through the authorized UAT login flow and verify the reported Error modal.
+- **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT; authorized test account.
+- **Preconditions** — Login page is accessible. The authorized test account can reach OTP verification. The user can receive OTPs.
+- **Data required** — `credentials.registeredUser` (authorized registered User ID and password, held in approved encrypted local data); a randomly generated six-digit value used once as an invalid OTP and kept in memory only.
 - **Steps**
   1. The user signs in with authorized credentials and accepts the Terms and Conditions.
-  2. The user enters an authorized invalid OTP through the approved test-environment method.
+  2. The user enters a generated six-digit value as an incorrect OTP.
   3. The user selects Submit.
 - **Expected result**
-  1. The OTP submission response is HTTP 417 Expectation Failed. [OBS-LOG-001]
-  2. No validation message or error modal appears on screen for that response, matching the reported current behavior. [OBS-LOG-001]
-- **Open items** — `NEEDS INPUT: Confirm the existing local registered-user fixture is authorized for UAT; provide an approved invalid-OTP test method and a verified way to identify the OTP submission response (bank test-environment owner)`. This case characterizes a reported feedback gap; it does not establish that silent failure is acceptable.
+  1. The system displays an Error modal with an error icon, the title “Error”, the message “Invalid OTP”, and an Okay button. [OBS-LOG-001]
+- **Open items** — None; the user approved one randomly generated six-digit test value. The related API response is not asserted.

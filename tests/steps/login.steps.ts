@@ -1,4 +1,5 @@
-import { Given, Then, When } from '../../src/fixtures/index.js';
+import { randomInt } from 'node:crypto';
+import { Given, Then, When, test } from '../../src/fixtures/index.js';
 import { getByKey } from '../../src/core/data-key.js';
 
 Given('The user opens the Bandhan Bank login page', async ({ loginPage }) => {
@@ -83,6 +84,46 @@ Then(
 Then(
   'The user sees the invalid credentials modal {string} and {string}',
   async ({ loginVerify }, headingKey: string, messageKey: string) => {
+    test.setTimeout(90_000);
     await loginVerify.showsInvalidCredentialsModal(headingKey, messageKey);
+  },
+);
+
+Then('The user sees the login OTP page', async ({ loginVerify }) => {
+  test.setTimeout(90_000);
+  await loginVerify.showsLoginOtpPage();
+});
+
+When(
+  'The user manually submits the received OTP',
+  async ({ loginPage }) => {
+    test.setTimeout(90_000);
+    await loginPage.waitForManualOtpCompletion();
+  },
+);
+
+Then('The user sees Home Dashboard', async ({ loginVerify }) => {
+  await loginVerify.showsHomeDashboard();
+});
+
+When('The user enters a generated incorrect OTP', async ({ loginPage }) => {
+  const otp = randomInt(100_000, 1_000_000).toString();
+  await loginPage.enterOtp(otp);
+});
+
+When('The user selects OTP Submit', async ({ loginPage }) => {
+  test.setTimeout(90_000);
+  await loginPage.submitOtp();
+});
+
+Then(
+  'The user sees the invalid OTP Error modal {string} {string} {string}',
+  async (
+    { loginVerify },
+    titleKey: string,
+    messageKey: string,
+    buttonKey: string,
+  ) => {
+    await loginVerify.showsInvalidOtpModal(titleKey, messageKey, buttonKey);
   },
 );

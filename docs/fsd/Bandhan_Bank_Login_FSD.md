@@ -1,6 +1,6 @@
 # Bandhan Bank Login Functional Specification
 
-Version 1.7 | 12 November 2026 | Status: Draft for functional review
+Version 1.9 | 13 November 2026 | Status: Draft for functional review
 
 ## 1 Purpose and scope
 
@@ -21,9 +21,9 @@ Outside this specification: Customer ID login; completion of User ID recovery or
 
 ### Revision and POC context
 
-This revision preserves FR-LOG-001 through FR-LOG-012 and supersedes version 1.5's no-OTP statements. The user has confirmed that OTP is required and supplied screenshots of the OTP page and authenticated dashboard. The earlier statement that dashboard access is unavailable is no longer used as the design baseline; authorized credentials and OTP access are still execution dependencies.
+This revision preserves FR-LOG-001 through FR-LOG-013 and OBS-LOG-001, adds the confirmed OTP input length, and clarifies invalid-OTP UI feedback from the user's report and supplied screenshot. It supersedes version 1.7's report of no visible OTP error feedback.
 
-Sources: Login FSD v1.5; user-supplied login, OTP and dashboard screens; subsequent user confirmations through 12 November 2026. No live portal execution was performed while writing this document. Environment: TEST_ENV=uat, BANK=demo, LOCALE=en-in. Login entry is the supplied UAT prelogin portal. Account names, account numbers and balances in screenshots are not test fixtures or expected baselines.
+Sources: Login FSD v1.5; user-supplied login, OTP, dashboard and invalid-OTP error screens; user confirmations through 13 November 2026. No live portal execution was performed while writing this document. Environment: TEST_ENV=uat, BANK=bandhan, LOCALE=en-in. Login entry is the supplied UAT prelogin portal. Account names, account numbers and balances in screenshots are not test fixtures or expected baselines.
 
 Login uses manual OTP entry during the POC until the bank provides its OTP API logic.
 
@@ -182,13 +182,15 @@ After Try Again dismisses the modal, the entered User ID, password, and Terms an
 | Forgot Password selected | Forgot Password page opens | FR-LOG-008 |
 | Password keyboard icon selected | Virtual keyboard opens | FR-LOG-009 |
 
-## 5 OTP verification and reported feedback gap
+## 5 OTP verification and invalid-OTP feedback
 
 **FR-LOG-013 — Login OTP page.** The page heading is **Login**. It displays “We've just sent an OTP to your registered mobile number”, an **Enter OTP*** field and **Submit**. Valid OTP completes FR-LOG-006. OTP entry is manual for this POC.
 
-**OBS-LOG-001 — Incorrect OTP (reported current behavior).** Submitting an incorrect login OTP returns HTTP **417 Expectation Failed**, but no validation message or error modal appears on the screen. The supplied response shows `result: SUCCESSFUL` while its nested message has `title: Invalid OTP`, `detail: Invalid OTP`, `code: DIGX_TFA_0004`, and `type: ERROR`. The outer result must not be interpreted as authentication success.
+**FR-LOG-014 — OTP input length.** A valid OTP is a six-digit number. The OTP input field allows a maximum of six digits.
 
-Record this as the reported current behavior and a UI feedback gap. It is not a requirement that OTP errors should be silent.
+**OBS-LOG-001 — Incorrect OTP feedback.** When the user submits an incorrect login OTP, the system displays an Error modal containing an error icon, the title **Error**, the message **Invalid OTP**, and an **Okay** button. This behavior is based on the user's report and supplied UAT screenshot dated 13 November 2026.
+
+The user reports that a related API response also appears in the network tab. The selected POC verifies the visible modal only; HTTP status and response payload are not asserted.
 
 ## 6 Selected POC coverage — five case intents
 
@@ -198,7 +200,7 @@ Record this as the reported current behavior and a UI feedback gap. It is not a 
 | Unchecked terms show the specified terms Error modal | Negative | FR-LOG-005, FR-LOG-012 |
 | Nonempty incorrect password shows the invalid credentials modal | Negative | FR-LOG-010 |
 | User ID lengths 4, 5, 50 and 51 follow the stated format/blur rules | Boundary | FR-LOG-003, FR-LOG-011 |
-| Incorrect OTP response and missing UI feedback are characterized | Negative / observation | OBS-LOG-001 |
+| Incorrect OTP displays the specified Error modal | Negative / UI observation | OBS-LOG-001 |
 
 These are coverage intents, not newly allocated test case IDs. When the case set is revised, preserve existing IDs: RIB_LOG_001 for successful login, RIB_LOG_002 for terms and RIB_LOG_003 for incorrect credentials. Existing RIB_LOG_004 (empty password) and RIB_LOG_005 (blur interaction history) remain historical designs; do not silently reuse their IDs for different cases. The old five-case file must be revised before implementation because it contains the superseded no-OTP expectation.
 
