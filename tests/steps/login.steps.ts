@@ -95,10 +95,17 @@ Then('The user sees the login OTP page', async ({ loginVerify }) => {
 });
 
 When(
-  'The user manually submits the received OTP',
-  async ({ loginPage }) => {
+  'The user enters the received login OTP',
+  async ({ loginVerify }) => {
     test.setTimeout(90_000);
-    await loginPage.waitForManualOtpCompletion();
+    await loginVerify.otpHasBeenEntered();
+  },
+);
+
+When(
+  'The script submits the received login OTP',
+  async ({ loginPage }) => {
+    await loginPage.submitOtp();
   },
 );
 

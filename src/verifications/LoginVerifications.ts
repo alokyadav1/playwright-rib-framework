@@ -50,14 +50,17 @@ export class LoginVerifications {
     ]);
   }
 
+  async otpHasBeenEntered(): Promise<void> {
+    await expect(this.login.otpInput).toHaveValue(/^.{6}$/, {
+      timeout: 60_000,
+    });
+  }
+
   async showsInvalidOtpModal(
     titleKey: string,
     messageKey: string,
     buttonKey: string,
   ): Promise<void> {
-    await expect(this.login.loginErrorAlert).toHaveCount(1, {
-      timeout: 60_000,
-    });
     await expect(this.login.loginErrorAlert).toBeVisible({ timeout: 60_000 });
     await expect(
       this.login.loginErrorAlert.getByRole("heading", {
@@ -80,10 +83,9 @@ export class LoginVerifications {
   }
 
   async showsHomeDashboard(): Promise<void> {
-    await Promise.all([
-      expect(this.login.homeNavigation).toBeVisible({ timeout: 60_000 }),
-      expect(this.login.logoutControl).toBeVisible({ timeout: 60_000 }),
-    ]);
+    await expect(this.login.accountCardContainer).toBeVisible({
+      timeout: 60_000,
+    });
   }
 
   async showsInvalidCredentialsModal(

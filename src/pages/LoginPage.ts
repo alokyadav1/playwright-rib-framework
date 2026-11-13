@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { OtpEntry } from '../components/OtpEntry.js';
 import loginLocators from '../locators/login.json' with { type: 'json' };
 import { getLabel } from '../core/label-key.js';
 import type { Labels } from '../core/runtime.js';
@@ -15,8 +16,7 @@ export class LoginPage extends BasePage {
   readonly challengeMessage: Locator;
   readonly otpInput: Locator;
   readonly otpSubmitBtn: Locator;
-  readonly homeNavigation: Locator;
-  readonly logoutControl: Locator;
+  readonly accountCardContainer: Locator;
 
   constructor(page: Page, private readonly labels: Labels) {
     super(page, loginLocators);
@@ -46,22 +46,12 @@ export class LoginPage extends BasePage {
       getLabel(labels, 'loginChallengeMessage'),
       { exact: true },
     );
-    this.otpInput = page.getByRole('textbox', {
-      name: getLabel(labels, 'loginOtpField'),
-      exact: true,
-    });
+    this.otpInput = new OtpEntry(page).input;
     this.otpSubmitBtn = page.getByRole('button', {
       name: getLabel(labels, 'loginOtpSubmitButton'),
       exact: true,
     });
-    this.homeNavigation = page.getByRole('link', {
-      name: getLabel(labels, 'loginHomeNavigation'),
-      exact: true,
-    });
-    this.logoutControl = page.getByRole('button', {
-      name: getLabel(labels, 'loginLogoutControl'),
-      exact: true,
-    });
+    this.accountCardContainer = this.element('accountCardContainer');
   }
 
   async openLoginPage(): Promise<void> {
@@ -77,7 +67,7 @@ export class LoginPage extends BasePage {
   }
 
   async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
+    await this.passwordInput.pressSequentially(password);
   }
 
   async acceptTerms(): Promise<void> {
@@ -94,10 +84,6 @@ export class LoginPage extends BasePage {
 
   async submitOtp(): Promise<void> {
     await this.otpSubmitBtn.click();
-  }
-
-  async waitForManualOtpCompletion(): Promise<void> {
-    await this.homeNavigation.waitFor({ state: 'visible', timeout: 60_000 });
   }
 
   userIdFormatMessage(labelKey: string): Locator {

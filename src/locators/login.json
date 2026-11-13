@@ -1,3 +1,4 @@
 {
-  "errorModalImg": "[role=\"alert\"] img.success-tick-img"
+  "errorModalImg": "[role=\"alert\"] .success-tick-img",
+  "accountCardContainer": ".account-card"
 }

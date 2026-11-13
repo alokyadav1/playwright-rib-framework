@@ -1,4 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
+import { OtpEntry } from "../components/OtpEntry.js";
 import { getLabel } from "../core/label-key.js";
 import type { Labels } from "../core/runtime.js";
 import unlockAccessLocators from "../locators/unlockAccess.json" with { type: "json" };
@@ -40,7 +41,7 @@ export class UnlockAccessPage extends BasePage {
       name: getLabel(labels, "unlockContinueButton"),
       exact: true,
     });
-    this.otpInput = this.element("otpInput");
+    this.otpInput = new OtpEntry(page).input;
     this.otpSubmitButton = page.getByRole("button", {
       name: getLabel(labels, "loginOtpSubmitButton"),
       exact: true,

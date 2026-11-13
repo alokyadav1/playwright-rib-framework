@@ -8,7 +8,8 @@ Feature: Bandhan Bank login
     And The user accepts the Terms and Conditions
     And The user selects Proceed
     Then The user sees the login OTP page
-    When The user manually submits the received OTP
+    When The user enters the received login OTP
+    And The script submits the received login OTP
     Then The user sees Home Dashboard
 
   Scenario: RIB_LOG_002 - Verify unchecked terms show the specified Error modal
