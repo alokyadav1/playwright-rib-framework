@@ -7,12 +7,16 @@ import {
 } from "../core/runtime.js";
 import { LoginPage } from "../pages/LoginPage.js";
 import { LoginVerifications } from "../verifications/LoginVerifications.js";
+import { UnlockAccessPage } from "../pages/UnlockAccessPage.js";
+import { UnlockAccessVerifications } from "../verifications/UnlockAccessVerifications.js";
 
 type Fixtures = {
   labels: Labels;
   data: BankData;
   loginPage: LoginPage;
   loginVerify: LoginVerifications;
+  unlockAccessPage: UnlockAccessPage;
+  unlockAccessVerify: UnlockAccessVerifications;
 };
 export const test = base.extend<Fixtures>({
   labels: ({}, use) => use(readBankLabels()),
@@ -22,6 +26,12 @@ export const test = base.extend<Fixtures>({
   },
   loginVerify: async ({ loginPage, labels }, use) => {
     await use(new LoginVerifications(loginPage, labels));
+  },
+  unlockAccessPage: async ({ page, labels }, use) => {
+    await use(new UnlockAccessPage(page, labels));
+  },
+  unlockAccessVerify: async ({ unlockAccessPage, labels }, use) => {
+    await use(new UnlockAccessVerifications(unlockAccessPage, labels));
   },
 });
 export const { Given, When, Then } = createBdd(test);

@@ -1,0 +1,5 @@
+{
+  "dateOfBirthInput": "input.oj-inputdatetime-input",
+  "otpInput": "[id=\"otpInput|input\"]",
+  "panValidationMsg": "#Pan .oj-user-assistance-inline-container"
+}

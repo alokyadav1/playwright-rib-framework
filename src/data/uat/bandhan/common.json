@@ -13,5 +13,34 @@
       "length50": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
       "length51": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     }
+  },
+  "unlockAccess": {
+    "invalidPanCase": {
+      "customerId": "enc:v1:/lderM5tnkRwece0wXnQOkywAONEepfU8X+MYA0keIaucobilg==",
+      "dateOfBirth": "05/05/1991",
+      "pan": "enc:v1:e4x/gnYIyY6wAH/sObCulyvoLpjKw2Pn0dU84mLnlnEJadF73ok=",
+      "mothersMaidenName": "Soma"
+    },
+    "incorrectPersonalDetails": {
+      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
+      "dateOfBirth": "01/01/1993",
+      "pan": "enc:v1:RhHuDDNFvF/qzClBF9ATg5DHganXtpOup0BY46qNpjBjMF6Z76Q=",
+      "mothersMaidenName": "Durga"
+    },
+    "incorrectOtpCase": {
+      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
+      "dateOfBirth": "04/01/1971",
+      "pan": "enc:v1:vfZGXIQH6yRTdIMGp2uo3tEsvETnVH+/RZyYUK6FxMaQi7M6glY=",
+      "mothersMaidenName": "BRATATI KARMAKAR"
+    },
+    "alreadyUnlockedUser": {
+      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
+      "dateOfBirth": "04/01/1971",
+      "pan": "enc:v1:vfZGXIQH6yRTdIMGp2uo3tEsvETnVH+/RZyYUK6FxMaQi7M6glY=",
+      "mothersMaidenName": "BRATATI KARMAKAR"
+    }
+  },
+  "navigation": {
+    "unlockAccessPath": "?page=unlock-user-id"
   }
 }

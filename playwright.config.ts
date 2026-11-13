@@ -27,9 +27,9 @@ export default defineConfig({
     },
     timezoneId: "Asia/Kolkata",
     locale: browserLocale, // same LOCALE value that picks the label file
-    trace: "off",
+    trace: "on",
     screenshot: "off",
-    video: "off",
+    video: "on",
     permissions: ["geolocation"],
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],

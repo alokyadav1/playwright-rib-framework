@@ -18,5 +18,13 @@
   "loginInvalidCredentialsMessage": "Please check the entered details and try again.",
   "loginTryAgainButton": "Try Again",
   "sessionExpiredMessage": "__REQUIRED__",
-  "transferExpectedStatus": "__REQUIRED__"
+  "transferExpectedStatus": "__REQUIRED__",
+  "unlockInvalidPanMessage": "Please provide a valid PAN to proceed.",
+  "unlockFetchErrorMessage": "Error in fetching data.",
+  "unlockAlreadyUnlockedMessage": "User ID is already unlocked",
+  "unlockCustomerIdField": "Customer ID*",
+  "unlockPanField": "PAN*",
+  "unlockMothersMaidenNameField": "Mother's Maiden Name*",
+  "unlockContinueButton": "Continue",
+  "unlockContinueToLoginButton": "Continue to Login"
 }
