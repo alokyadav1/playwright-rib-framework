@@ -15,14 +15,14 @@ Feature: Bandhan Bank unlock online banking access
     And The script submits the received unlock OTP
     Then The user sees unlock fetch Error modal "unlockFetchErrorMessage"
 
-  Scenario: RIB_UNL_003 - Verify resource not found modal after OTP submission
+  Scenario: RIB_UNL_003 - Verify invalid OTP shows the Error modal
     Given The user opens the Bandhan Bank unlock access form "navigation.unlockAccessPath"
     When The user enters personal details from "unlockAccess.incorrectOtpCase"
     And The user selects Continue for unlock access
     Then The user sees unlock OTP verification
     When The user enters a generated six-digit unlock OTP
     And The user submits the generated unlock OTP
-    Then The user sees the resource not found modal text "unlockResourceNotFoundText"
+    Then The user sees the invalid OTP Error modal "loginErrorModalTitle" "loginInvalidOtpMessage" "loginOkayButton"
 
   Scenario: RIB_UNL_004 - Verify already-unlocked user sees the information modal
     Given The user opens the Bandhan Bank unlock access form "navigation.unlockAccessPath"

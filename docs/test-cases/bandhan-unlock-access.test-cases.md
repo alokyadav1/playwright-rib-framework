@@ -1,10 +1,12 @@
 # Bandhan Bank Unlock Access test cases
 
+Continuation update, 13 November 2026: the pending workspace change reuses the existing invalid-OTP Error modal check for RIB_UNL_003; resumed at the user's request. This supersedes the earlier resource-not-found amendment described below. The reused check asserts the Error title, Invalid OTP text, Okay button, and error icon. These checks have not been run on Unlock Access.
+
 - **Source:** `docs/fsd/Bandhan_Bank_Unlock_Access_FSD.md`, version 1.1, 12 November 2026
 - **Scope:** The four case IDs selected from §4; RIB_UNL_003 has the user-approved amendment documented below.
 - **Status:** Four case designs and IDs approved by the user. On 13 November 2026, the user approved removing icon outcomes from RIB_UNL_002 and RIB_UNL_004 and amending RIB_UNL_003 to check resource-not-found modal text after a generated six-digit OTP. FSD v1.1 remains unchanged; the former OBS-UNL-002 API/UI characterization is not covered by the amended case.
 - **Open questions:**
-  - The amended RIB_UNL_003 modal text is based on the user-provided screenshot and has not been exercised in a scenario run.
+  - RIB_UNL_003's reused invalid-OTP modal and icon checks have not been exercised on Unlock Access.
 
 ## RIB_UNL_001 - Verify invalid PAN shows exact inline feedback
 
@@ -43,15 +45,15 @@
   2. After valid OTP verification, the system displays an Error modal with title “Error”, `label unlockFetchErrorMessage` with exact text “Error in fetching data.”, and an Okay button. The error icon is excluded by user-approved amendment. [OBS-UNL-001.2, FR-UNL-003.2]
 - **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep.
 
-## RIB_UNL_003 - Verify resource not found modal after OTP submission
+## RIB_UNL_003 - Verify invalid OTP shows the Error modal
 
 - **Test Case ID** — RIB_UNL_003
-- **Title** — Verify resource not found modal after OTP submission
+- **Title** — Verify invalid OTP shows the Error modal
 - **Requirement(s)** — FR-UNL-003.1; USER-AMEND-UNL-003 (user-approved case amendment, 13 November 2026)
-- **Short description** — Submit a generated six-digit OTP for the approved unlock profile and verify the specified resource-not-found text in the Error modal.
+- **Short description** — Submit a generated six-digit OTP for the approved unlock profile and reuse the existing invalid-OTP Error modal verification.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT. This is the user-approved runtime context; the FSD source records BANK=demo.
 - **Preconditions** — The owner-approved `unlockAccess.incorrectOtpCase` profile can reach OTP verification.
-- **Data required** — `unlockAccess.incorrectOtpCase` (owner-approved profile; sensitive values stay in an approved encrypted local source); `label unlockResourceNotFoundText` (substring supplied by the user and shown in the attached modal screenshot).
+- **Data required** — `unlockAccess.incorrectOtpCase` (owner-approved profile; sensitive values stay in an approved encrypted local source); existing labels `loginErrorModalTitle`, `loginInvalidOtpMessage`, and `loginOkayButton`.
 - **Steps**
   1. The user enters the approved profile details.
   2. The user selects Continue and reaches OTP verification.
@@ -59,7 +61,7 @@
   4. The user submits the OTP.
 - **Expected result**
   1. The system opens OTP verification after Continue. [FR-UNL-003.1]
-  2. After OTP submission, the Error modal displays text containing `label unlockResourceNotFoundText` (“Can't find resource”). No other modal text, icon, or API response is asserted. [USER-AMEND-UNL-003]
+  2. After OTP submission, a visible Error modal displays the exact Error title, Invalid OTP message, Okay button, and error icon checked by `LoginVerifications.showsInvalidOtpModal()`. [USER-AMEND-UNL-003]
 - **Open items** — The original FSD observations OBS-UNL-002.1 and OBS-UNL-002.2 are not covered by this amended case.
 
 ## RIB_UNL_004 - Verify already-unlocked user sees the information modal
