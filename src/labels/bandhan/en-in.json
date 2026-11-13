@@ -6,7 +6,14 @@
   "loginTermsAcceptanceError": "Please agree to the Terms and Conditions to proceed",
   "loginErrorModalTitle": "Error",
   "loginOkayButton": "Okay",
-  "loginChallengeMessage": "__REQUIRED__",
+  "loginChallengeMessage": "We've just sent an OTP to your registered mobile number",
+  "loginOtpHeading": "Login",
+  "loginOtpField": "Enter OTP*",
+  "loginOtpSubmitButton": "Submit",
+  "loginUserIdFormatMessage": "Only Alpha numeric values and length 5-50 are allowed",
+  "loginInvalidCredentialsHeading": "Uh-oh! Looks like the credentials entered are incorrect",
+  "loginInvalidCredentialsMessage": "Please check the entered details and try again.",
+  "loginTryAgainButton": "Try Again",
   "sessionExpiredMessage": "__REQUIRED__",
   "transferExpectedStatus": "__REQUIRED__"
 }
