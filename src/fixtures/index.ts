@@ -15,6 +15,8 @@ import { OtpEntry } from "../components/OtpEntry.js";
 import { OtpVerifications } from "../verifications/OtpVerifications.js";
 import { ForgotUserIdPage } from "../pages/ForgotUserIdPage.js";
 import { ForgotUserIdVerifications } from "../verifications/ForgotUserIdVerifications.js";
+import { ForgotPasswordPage } from "../pages/ForgotPasswordPage.js";
+import { ForgotPasswordVerifications } from "../verifications/ForgotPasswordVerifications.js";
 
 type Fixtures = {
   labels: Labels;
@@ -29,6 +31,8 @@ type Fixtures = {
   otpVerify: OtpVerifications;
   forgotUserIdPage: ForgotUserIdPage;
   forgotUserIdVerify: ForgotUserIdVerifications;
+  forgotPasswordPage: ForgotPasswordPage;
+  forgotPasswordVerify: ForgotPasswordVerifications;
 };
 export const test = base.extend<Fixtures>({
   labels: ({}, use) => use(readBankLabels()),
@@ -62,6 +66,12 @@ export const test = base.extend<Fixtures>({
   },
   forgotUserIdVerify: async ({ forgotUserIdPage, labels }, use) => {
     await use(new ForgotUserIdVerifications(forgotUserIdPage, labels));
+  },
+  forgotPasswordPage: async ({ page, labels }, use) => {
+    await use(new ForgotPasswordPage(page, labels));
+  },
+  forgotPasswordVerify: async ({ forgotPasswordPage, labels }, use) => {
+    await use(new ForgotPasswordVerifications(forgotPasswordPage, labels));
   },
 });
 export const { Given, When, Then } = createBdd(test);

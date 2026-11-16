@@ -48,5 +48,14 @@
   "fuidRequiredCardNumberMessage": "Please provide your card number to proceed",
   "fuidRequiredExpiryMonthMessage": "Please provide your card expiry month to proceed",
   "fuidRequiredAtmPinMessage": "Please provide your ATM pin to proceed",
-  "fuidInvalidAtmPinLengthMessage": "ATM pin should have 4 digits. Please enter a valid ATM pin."
+  "fuidInvalidAtmPinLengthMessage": "ATM pin should have 4 digits. Please enter a valid ATM pin.",
+  "fpwdRequiredCustomerIdMessage": "Please provide your Customer Id to proceed",
+  "fpwdRequiredCardNumberMessage": "Please provide your card number to proceed",
+  "fpwdRequiredAtmPinMessage": "Please provide your ATM pin to proceed",
+  "fpwdInvalidAtmPinLengthMessage": "ATM pin should have 4 digits. Please enter a valid ATM pin.",
+  "fpwdCustomerIdField": "Customer ID*",
+  "fpwdCardNumberField": "Card Number*",
+  "fpwdAtmPinField": "ATM PIN*",
+  "fpwdExpiryField": "Expiry*",
+  "fpwdContinueButton": "Continue"
 }
