@@ -2,8 +2,9 @@
 
 - **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.1, 12 November 2026
 - **Scope:** The four intents in §3 only.
-- **Status:** Four case designs approved by the user on 16 November 2026; data keys are ready for implementation. The source FSD is draft for functional review. No cases are automated or verified.
-- **Open questions:** None for data design. Runtime UI locators and month/year options must be verified before assertions are implemented.
+- **Status:** Four case designs approved by the user on 16 November 2026; RIB_FUID_002 was amended with user approval for an 18-digit paste sample. Automation exists; see the traceability record for UAT results. The source FSD is draft for functional review.
+- **Amendment (16 November 2026):** The user approved an 18-digit paste sample for RIB_FUID_002; the expected field cap remains 16 digits.
+- **Open questions:** None for data design. Runtime UI locators and month/year options were verified during implementation.
 
 ## RIB_FUID_001 - Verify required-field messages appear together
 
@@ -32,20 +33,20 @@
 - **Test Case ID** — RIB_FUID_002
 - **Title** — Verify card number input is capped at 16 digits
 - **Requirement(s)** — FR-FUID-003.1
-- **Short description** — Verify 15- and 16-digit values are retained and a 17th digit is blocked when typed or pasted.
+- **Short description** — Verify 15- and 16-digit values are retained, a 17th typed digit is blocked, and an 18-digit paste does not exceed the 16-digit cap.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot User ID Debit Card form is open. This case does not select Continue or submit card details.
-- **Data required** — `fuidInputs.cardBoundarySamples` (encrypted, synthetic digit-only samples with lengths 15, 16, and 17; non-routable and used only for field-cap checks).
+- **Data required** — `fuidInputs.cardBoundarySamples` (encrypted, synthetic digit-only samples with lengths 15, 16, 17, and 18; non-routable and used only for field-cap checks).
 - **Steps**
   1. The user enters the approved 15-digit sample.
   2. The user enters the approved 16-digit sample.
   3. The user attempts to type a 17th digit after the 16-digit value.
-  4. The user pastes the approved 17-digit sample into the card number field.
+  4. The user pastes the approved 18-digit sample into the card number field.
 - **Expected result**
   1. The card number field retains the 15-digit value. [FR-FUID-003.1]
   2. The card number field retains the 16-digit value. [FR-FUID-003.1]
   3. Typing beyond 16 digits is blocked and the value remains at 16 digits. [FR-FUID-003.1]
-  4. Pasting more than 16 digits is blocked and the value remains at 16 digits. [FR-FUID-003.1]
+  4. Pasting the 18-digit sample does not exceed 16 digits; the field retains 16 digits. [FR-FUID-003.1]
 - **Open items** — None; the case does not submit card details.
 
 ## RIB_FUID_003 - Verify short ATM PIN shows the specified length message

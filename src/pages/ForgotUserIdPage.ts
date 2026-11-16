@@ -73,30 +73,19 @@ export class ForgotUserIdPage extends BasePage {
 
   async enterCardSample(value: string): Promise<void> {
     await this.cardNumberInput.fill("");
-    await this.cardNumberInput.fill(value);
-  }
-
-  async typeFinalCardDigit(cardSample: string): Promise<void> {
-    if (!/^\d{17}$/.test(cardSample)) {
-      throw new Error("Expected a 17-digit synthetic card boundary sample");
-    }
-    await this.cardNumberInput.pressSequentially(cardSample.slice(-1));
+    await this.cardNumberInput.pressSequentially(value);
   }
 
   async pasteCardSample(cardSample: string): Promise<void> {
-    if (!/^\d{17}$/.test(cardSample)) {
-      throw new Error("Expected a 17-digit synthetic card boundary sample");
-    }
-    await this.page
-      .context()
-      .grantPermissions(["clipboard-read", "clipboard-write"], {
-        origin: new URL(this.page.url()).origin,
-      });
-    await this.cardNumberInput.fill("");
+    await this.page.context().grantPermissions(
+      ["clipboard-read", "clipboard-write"],
+      { origin: new URL(this.page.url()).origin },
+    );
     await this.page.evaluate(
       async (value) => navigator.clipboard.writeText(value),
       cardSample,
     );
+    await this.cardNumberInput.clear();
     await this.cardNumberInput.press("Control+V");
   }
 

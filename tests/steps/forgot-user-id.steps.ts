@@ -31,13 +31,6 @@ Then(
 );
 
 When(
-  'The user types the final card digit from {string}',
-  async ({ forgotUserIdPage, data }, dataKey: string) => {
-    await forgotUserIdPage.typeFinalCardDigit(getByKey<string>(data, dataKey));
-  },
-);
-
-When(
   'The user pastes the card sample from {string}',
   async ({ forgotUserIdPage, data }, dataKey: string) => {
     await forgotUserIdPage.pasteCardSample(getByKey<string>(data, dataKey));
