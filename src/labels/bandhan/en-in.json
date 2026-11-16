@@ -26,5 +26,17 @@
   "unlockPanField": "PAN*",
   "unlockMothersMaidenNameField": "Mother's Maiden Name*",
   "unlockContinueButton": "Continue",
-  "unlockContinueToLoginButton": "Continue to Login"
+  "unlockContinueToLoginButton": "Continue to Login",
+  "kcidCustomerIdOption": "Customer ID",
+  "kcidKnowCustomerIdLink": "Know your Customer ID",
+  "kcidMobileField": "Mobile number* Verify using*",
+  "kcidDateOfBirthField": "Date of Birth",
+  "kcidContinueButton": "Continue",
+  "kcidRequiredMobileMessage": "Please provide your Mobile number to proceed",
+  "kcidRequiredDateOfBirthMessage": "Please provide your Date of birth to proceed",
+  "kcidDetailsMismatchMessage": "Details do not match with entered mobile number.",
+  "kcidInvalidOtpMessage": "Please Enter Valid One Time Password",
+  "kcidSuccessHeading": "You have successfully retrieved your Customer ID!",
+  "kcidSuccessMessage": "Your Customer ID has been sent to your registered mobile number and email ID.",
+  "kcidContinueToLoginButton": "Continue to Login"
 }

@@ -1,0 +1,5 @@
+{
+  "mobileRequiredContainer": "#mobile-number .oj-user-assistance-inline-container",
+  "dateOfBirthRequiredContainer": "oj-input-date .oj-user-assistance-inline-container",
+  "modalIcon": ".success-tick-img"
+}

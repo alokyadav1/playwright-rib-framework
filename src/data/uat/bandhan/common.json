@@ -2,7 +2,12 @@
   "credentials": {
     "registeredUser": {
       "userId": "enc:v1:UVKIt8I9kz87+vX8Qqj/0uVHq55kFa8AJv/2aG3sjcA/1IiTtHw=",
-      "password": "enc:v1:CG/7rMta52/B6lUI8u/TW3/TQv1MCyOMLcJb8Ho3AgJO/lUBlg=="
+      "password": "enc:v1:CG/7rMta52/B6lUI8u/TW3/TQv1MCyOMLcJb8Ho3AgJO/lUBlg==",
+      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
+      "dateOfBirth": "04/01/1971",
+      "pan": "enc:v1:vfZGXIQH6yRTdIMGp2uo3tEsvETnVH+/RZyYUK6FxMaQi7M6glY=",
+      "mothersMaidenName": "BRATATI KARMAKAR",
+      "mobile": "enc:v1:CaXcu8Fveg90XbgU8bVvnRl3r2w1MLNoW7aU83qmgAy60rcx16k="
     },
     "incorrectPassword": "enc:v1:jx3eWWp6ZC7vNEi8b7aLHo8U35rH1vHhVOzUP9iwIuoaM7JmAKt7"
   },
@@ -40,7 +45,19 @@
       "mothersMaidenName": "BRATATI KARMAKAR"
     }
   },
+  "kcidLookup": {
+    "nonmatchingDetails": {
+      "mobile": "enc:v1:qTfZQPI5V4iiaZkEyQHpbJ8NzMfKkMJ7GJ1DHMuvquUiDLHwHxs=",
+      "dateOfBirth": "enc:v1:hT6ssZc1TbRXsdWNTiMmTAnLprVEzrK+Pra9VAMXD2weCK4xxtw="
+    },
+    "mobileSamples": {
+      "length16": "ABCDEFGHIJKLMNOP",
+      "length17": "ABCDEFGHIJKLMNOPQ",
+      "eighteenthCharacter": "R"
+    }
+  },
   "navigation": {
+    "kcidPath": "/?page=know-your-customer",
     "unlockAccessPath": "?page=unlock-user-id"
   }
 }
