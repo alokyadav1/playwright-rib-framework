@@ -19,6 +19,7 @@ export class CustomerIdPage extends BasePage {
   readonly otpInput: Locator;
   readonly otpSubmitButton: Locator;
   readonly resultAlert: Locator;
+  private readonly otpEntry: OtpEntry;
 
   constructor(page: Page, private readonly labels: Labels) {
     super(page, customerIdLocators);
@@ -36,11 +37,9 @@ export class CustomerIdPage extends BasePage {
     });
     this.mobileRequiredContainer = this.element('mobileRequiredContainer');
     this.dateOfBirthRequiredContainer = this.element('dateOfBirthRequiredContainer');
-    this.otpInput = new OtpEntry(page).input;
-    this.otpSubmitButton = page.getByRole('button', {
-      name: getLabel(labels, 'loginOtpSubmitButton'),
-      exact: true,
-    });
+    this.otpEntry = new OtpEntry(page, labels);
+    this.otpInput = this.otpEntry.input;
+    this.otpSubmitButton = this.otpEntry.submitButton;
     this.resultAlert = page.getByRole('alert');
   }
 

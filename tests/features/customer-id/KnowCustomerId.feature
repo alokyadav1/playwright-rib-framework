@@ -26,7 +26,7 @@ Feature: Bandhan Bank Know Your Customer ID
     And The user selects Continue for Customer ID retrieval
     Then The user sees Customer ID OTP verification
     When The user enters a generated incorrect OTP
-    And The user selects OTP Submit
+    And The user submits the OTP
     Then The user sees the Customer ID Error modal "kcidInvalidOtpMessage"
 
   Scenario: RIB_KCID_005 - Verify valid manual OTP shows Customer ID retrieval confirmation
@@ -34,6 +34,6 @@ Feature: Bandhan Bank Know Your Customer ID
     When The user enters registered Customer ID lookup details
     And The user selects Continue for Customer ID retrieval
     Then The user sees Customer ID OTP verification
-    When The user enters the received login OTP
-    And The script submits the received login OTP
+    When The user enters the received OTP
+    And The user submits the OTP
     Then The user sees the Customer ID retrieval success confirmation "kcidSuccessHeading" "kcidSuccessMessage" "kcidContinueToLoginButton"

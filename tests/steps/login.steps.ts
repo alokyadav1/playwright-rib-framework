@@ -1,4 +1,3 @@
-import { randomInt } from 'node:crypto';
 import { Given, Then, When, test } from '../../src/fixtures/index.js';
 import { getByKey } from '../../src/core/data-key.js';
 
@@ -94,33 +93,8 @@ Then('The user sees the login OTP page', async ({ loginVerify }) => {
   await loginVerify.showsLoginOtpPage();
 });
 
-When(
-  'The user enters the received login OTP',
-  async ({ loginVerify }) => {
-    test.setTimeout(90_000);
-    await loginVerify.otpHasBeenEntered();
-  },
-);
-
-When(
-  'The script submits the received login OTP',
-  async ({ loginPage }) => {
-    await loginPage.submitOtp();
-  },
-);
-
 Then('The user sees Home Dashboard', async ({ loginVerify }) => {
   await loginVerify.showsHomeDashboard();
-});
-
-When('The user enters a generated incorrect OTP', async ({ loginPage }) => {
-  const otp = randomInt(100_000, 1_000_000).toString();
-  await loginPage.enterOtp(otp);
-});
-
-When('The user selects OTP Submit', async ({ loginPage }) => {
-  test.setTimeout(90_000);
-  await loginPage.submitOtp();
 });
 
 Then(

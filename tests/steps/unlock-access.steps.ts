@@ -1,4 +1,3 @@
-import { randomInt } from "node:crypto";
 import { getByKey } from "../../src/core/data-key.js";
 import { Given, Then, When, test } from "../../src/fixtures/index.js";
 import type { UnlockAccessDetails } from "../../src/pages/UnlockAccessPage.js";
@@ -38,35 +37,6 @@ Then(
   async ({ unlockAccessVerify }) => {
     test.setTimeout(90_000);
     await unlockAccessVerify.showsOtpVerification();
-  },
-);
-
-When(
-  "The user enters the received unlock OTP",
-  async ({ unlockAccessVerify }) => {
-    test.setTimeout(90_000);
-    await unlockAccessVerify.otpHasBeenEntered();
-  },
-);
-
-When(
-  "The script submits the received unlock OTP",
-  async ({ unlockAccessPage }) => {
-    await unlockAccessPage.submitOtp();
-  },
-);
-
-When(
-  "The user enters a generated six-digit unlock OTP",
-  async ({ unlockAccessPage }) => {
-    await unlockAccessPage.enterOtp(randomInt(100_000, 1_000_000).toString());
-  },
-);
-
-When(
-  "The user submits the generated unlock OTP",
-  async ({ unlockAccessPage }) => {
-    await unlockAccessPage.submitOtp();
   },
 );
 

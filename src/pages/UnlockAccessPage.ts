@@ -21,6 +21,7 @@ export class UnlockAccessPage extends BasePage {
   readonly otpInput: Locator;
   readonly otpSubmitButton: Locator;
   readonly resultAlert: Locator;
+  private readonly otpEntry: OtpEntry;
 
   constructor(page: Page, private readonly labels: Labels) {
     super(page, unlockAccessLocators);
@@ -41,11 +42,9 @@ export class UnlockAccessPage extends BasePage {
       name: getLabel(labels, "unlockContinueButton"),
       exact: true,
     });
-    this.otpInput = new OtpEntry(page).input;
-    this.otpSubmitButton = page.getByRole("button", {
-      name: getLabel(labels, "loginOtpSubmitButton"),
-      exact: true,
-    });
+    this.otpEntry = new OtpEntry(page, labels);
+    this.otpInput = this.otpEntry.input;
+    this.otpSubmitButton = this.otpEntry.submitButton;
     this.resultAlert = page.getByRole("alert");
   }
 
@@ -72,10 +71,10 @@ export class UnlockAccessPage extends BasePage {
   }
 
   async submitOtp(): Promise<void> {
-    await this.otpSubmitButton.click();
+    await this.otpEntry.submit();
   }
 
   async enterOtp(otp: string): Promise<void> {
-    await this.otpInput.fill(otp);
+    await this.otpEntry.enter(otp);
   }
 }

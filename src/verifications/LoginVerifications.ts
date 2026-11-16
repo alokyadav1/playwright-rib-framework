@@ -50,12 +50,6 @@ export class LoginVerifications {
     ]);
   }
 
-  async otpHasBeenEntered(): Promise<void> {
-    await expect(this.login.otpInput).toHaveValue(/^.{6}$/, {
-      timeout: 60_000,
-    });
-  }
-
   async showsInvalidOtpModal(
     titleKey: string,
     messageKey: string,

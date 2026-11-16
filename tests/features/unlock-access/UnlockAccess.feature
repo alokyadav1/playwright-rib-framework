@@ -11,8 +11,8 @@ Feature: Bandhan Bank unlock online banking access
     When The user enters personal details from "unlockAccess.incorrectPersonalDetails"
     And The user selects Continue for unlock access
     Then The user sees unlock OTP verification
-    When The user enters the received unlock OTP
-    And The script submits the received unlock OTP
+    When The user enters the received OTP
+    And The user submits the OTP
     Then The user sees unlock fetch Error modal "unlockFetchErrorMessage"
 
   Scenario: RIB_UNL_003 - Verify invalid OTP shows the Error modal
@@ -20,8 +20,8 @@ Feature: Bandhan Bank unlock online banking access
     When The user enters personal details from "unlockAccess.incorrectOtpCase"
     And The user selects Continue for unlock access
     Then The user sees unlock OTP verification
-    When The user enters a generated six-digit unlock OTP
-    And The user submits the generated unlock OTP
+    When The user enters a generated incorrect OTP
+    And The user submits the OTP
     Then The user sees the invalid OTP Error modal "loginErrorModalTitle" "loginInvalidOtpMessage" "loginOkayButton"
 
   Scenario: RIB_UNL_004 - Verify already-unlocked user sees the information modal
@@ -29,6 +29,6 @@ Feature: Bandhan Bank unlock online banking access
     When The user enters personal details from "unlockAccess.alreadyUnlockedUser"
     And The user selects Continue for unlock access
     Then The user sees unlock OTP verification
-    When The user enters the received unlock OTP
-    And The script submits the received unlock OTP
+    When The user enters the received OTP
+    And The user submits the OTP
     Then The user sees the already-unlocked information modal "unlockAlreadyUnlockedMessage"

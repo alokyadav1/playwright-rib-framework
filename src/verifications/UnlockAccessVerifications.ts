@@ -24,12 +24,6 @@ export class UnlockAccessVerifications {
     ]);
   }
 
-  async otpHasBeenEntered(): Promise<void> {
-    await expect(this.unlockAccess.otpInput).toHaveValue(/^.{6}$/, {
-      timeout: 60_000,
-    });
-  }
-
   async showsFetchErrorModal(messageKey: string): Promise<void> {
     await expect(this.unlockAccess.resultAlert).toBeVisible({
       timeout: 60_000,

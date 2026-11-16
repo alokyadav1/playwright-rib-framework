@@ -8,8 +8,8 @@ Feature: Bandhan Bank login
     And The user accepts the Terms and Conditions
     And The user selects Proceed
     Then The user sees the login OTP page
-    When The user enters the received login OTP
-    And The script submits the received login OTP
+    When The user enters the received OTP
+    And The user submits the OTP
     Then The user sees Home Dashboard
 
   Scenario: RIB_LOG_002 - Verify unchecked terms show the specified Error modal
@@ -50,5 +50,5 @@ Feature: Bandhan Bank login
     And The user selects Proceed
     Then The user sees the login OTP page
     When The user enters a generated incorrect OTP
-    And The user selects OTP Submit
+    And The user submits the OTP
     Then The user sees the invalid OTP Error modal "loginErrorModalTitle" "loginInvalidOtpMessage" "loginOkayButton"

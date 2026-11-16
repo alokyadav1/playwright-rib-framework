@@ -17,6 +17,7 @@ export class LoginPage extends BasePage {
   readonly otpInput: Locator;
   readonly otpSubmitBtn: Locator;
   readonly accountCardContainer: Locator;
+  private readonly otpEntry: OtpEntry;
 
   constructor(page: Page, private readonly labels: Labels) {
     super(page, loginLocators);
@@ -46,11 +47,9 @@ export class LoginPage extends BasePage {
       getLabel(labels, 'loginChallengeMessage'),
       { exact: true },
     );
-    this.otpInput = new OtpEntry(page).input;
-    this.otpSubmitBtn = page.getByRole('button', {
-      name: getLabel(labels, 'loginOtpSubmitButton'),
-      exact: true,
-    });
+    this.otpEntry = new OtpEntry(page, labels);
+    this.otpInput = this.otpEntry.input;
+    this.otpSubmitBtn = this.otpEntry.submitButton;
     this.accountCardContainer = this.element('accountCardContainer');
   }
 
@@ -79,11 +78,11 @@ export class LoginPage extends BasePage {
   }
 
   async enterOtp(otp: string): Promise<void> {
-    await this.otpInput.fill(otp);
+    await this.otpEntry.enter(otp);
   }
 
   async submitOtp(): Promise<void> {
-    await this.otpSubmitBtn.click();
+    await this.otpEntry.submit();
   }
 
   userIdFormatMessage(labelKey: string): Locator {

@@ -11,6 +11,8 @@ import { UnlockAccessPage } from "../pages/UnlockAccessPage.js";
 import { UnlockAccessVerifications } from "../verifications/UnlockAccessVerifications.js";
 import { CustomerIdPage } from "../pages/CustomerIdPage.js";
 import { CustomerIdVerifications } from "../verifications/CustomerIdVerifications.js";
+import { OtpEntry } from "../components/OtpEntry.js";
+import { OtpVerifications } from "../verifications/OtpVerifications.js";
 
 type Fixtures = {
   labels: Labels;
@@ -21,6 +23,8 @@ type Fixtures = {
   unlockAccessVerify: UnlockAccessVerifications;
   customerIdPage: CustomerIdPage;
   customerIdVerify: CustomerIdVerifications;
+  otpEntry: OtpEntry;
+  otpVerify: OtpVerifications;
 };
 export const test = base.extend<Fixtures>({
   labels: ({}, use) => use(readBankLabels()),
@@ -42,6 +46,12 @@ export const test = base.extend<Fixtures>({
   },
   customerIdVerify: async ({ customerIdPage, labels }, use) => {
     await use(new CustomerIdVerifications(customerIdPage, labels));
+  },
+  otpEntry: async ({ page, labels }, use) => {
+    await use(new OtpEntry(page, labels));
+  },
+  otpVerify: async ({ otpEntry }, use) => {
+    await use(new OtpVerifications(otpEntry));
   },
 });
 export const { Given, When, Then } = createBdd(test);
