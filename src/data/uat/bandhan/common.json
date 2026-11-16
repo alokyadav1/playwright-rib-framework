@@ -56,8 +56,19 @@
       "eighteenthCharacter": "R"
     }
   },
+  "fuidInputs": {
+    "cardBoundarySamples": {
+      "length15": "enc:v1:1n5Fp08Pdhr61bYuIcoAqqS0V2Ogc8QITvWwibL6uyjt3YIpc3UdWhUqGw==",
+      "length16": "enc:v1:yYUcp8wqW1TGp3qxZwBHYEncBLEKnBSAQlYyfEGdbIbOvm9ZrAr+F8DbdMA=",
+      "length17": "enc:v1:mUAGt3cL0LzoxR1IhRLH0ZYCdW+XRFfwktWfORNWva8Pr1T7Ivhn67ZO0Pey"
+    },
+    "shortLengthInputs": {
+      "atmValue": "enc:v1:p/zZQ/7Jvb6aD9G80lyx0X2o4bl/btAMibicH4Hp0g=="
+    }
+  },
   "navigation": {
     "kcidPath": "/?page=know-your-customer",
+    "fuidPath": "/?page=user-recovery-info",
     "unlockAccessPath": "?page=unlock-user-id"
   }
 }

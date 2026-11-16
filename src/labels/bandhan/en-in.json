@@ -38,5 +38,15 @@
   "kcidInvalidOtpMessage": "Please Enter Valid One Time Password",
   "kcidSuccessHeading": "You have successfully retrieved your Customer ID!",
   "kcidSuccessMessage": "Your Customer ID has been sent to your registered mobile number and email ID.",
-  "kcidContinueToLoginButton": "Continue to Login"
+  "kcidContinueToLoginButton": "Continue to Login",
+  "fuidCustomerIdField": "Customer ID*",
+  "fuidCardNumberField": "Card number*",
+  "fuidAtmPinField": "ATM PIN*",
+  "fuidExpiryField": "Expiry*",
+  "fuidContinueButton": "Continue",
+  "fuidRequiredCustomerIdMessage": "Please provide your Customer Id to proceed",
+  "fuidRequiredCardNumberMessage": "Please provide your card number to proceed",
+  "fuidRequiredExpiryMonthMessage": "Please provide your card expiry month to proceed",
+  "fuidRequiredAtmPinMessage": "Please provide your ATM pin to proceed",
+  "fuidInvalidAtmPinLengthMessage": "ATM pin should have 4 digits. Please enter a valid ATM pin."
 }

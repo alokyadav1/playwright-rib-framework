@@ -13,6 +13,8 @@ import { CustomerIdPage } from "../pages/CustomerIdPage.js";
 import { CustomerIdVerifications } from "../verifications/CustomerIdVerifications.js";
 import { OtpEntry } from "../components/OtpEntry.js";
 import { OtpVerifications } from "../verifications/OtpVerifications.js";
+import { ForgotUserIdPage } from "../pages/ForgotUserIdPage.js";
+import { ForgotUserIdVerifications } from "../verifications/ForgotUserIdVerifications.js";
 
 type Fixtures = {
   labels: Labels;
@@ -25,6 +27,8 @@ type Fixtures = {
   customerIdVerify: CustomerIdVerifications;
   otpEntry: OtpEntry;
   otpVerify: OtpVerifications;
+  forgotUserIdPage: ForgotUserIdPage;
+  forgotUserIdVerify: ForgotUserIdVerifications;
 };
 export const test = base.extend<Fixtures>({
   labels: ({}, use) => use(readBankLabels()),
@@ -52,6 +56,12 @@ export const test = base.extend<Fixtures>({
   },
   otpVerify: async ({ otpEntry }, use) => {
     await use(new OtpVerifications(otpEntry));
+  },
+  forgotUserIdPage: async ({ page, labels }, use) => {
+    await use(new ForgotUserIdPage(page, labels));
+  },
+  forgotUserIdVerify: async ({ forgotUserIdPage, labels }, use) => {
+    await use(new ForgotUserIdVerifications(forgotUserIdPage, labels));
   },
 });
 export const { Given, When, Then } = createBdd(test);
