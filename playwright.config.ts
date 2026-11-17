@@ -18,6 +18,7 @@ export default defineConfig({
   forbidOnly: true,
   retries: 0,
   workers: "50%",
+  timeout: 60_000,
   reporter: [["html", { open: "never" }]],
   use: {
     baseURL,

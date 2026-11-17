@@ -91,5 +91,13 @@
       "cardNumber": "enc:v1:A/3BD1wGYVivNSWbjOM5KF7oIgOr4QQfjutM1e5JKKymXwLgGQ2mykVGIq4=",
       "atmPin": "enc:v1:p/zZQ/7Jvb6aD9G80lyx0X2o4bl/btAMibicH4Hp0g=="
     }
+  },
+  "debitCardProfile": {
+    "customerId": "enc:v1:PB5dIU0aG9ZDJSHi2sFXOZfeoaYgWWmUnm/JruzB4Uc4EjuY5A==",
+    "cardNumber": "enc:v1:RLLpxxLmUqfnK5iWdauPJRw6CiLOcCKrVnG2HcAO2tO3Q9Vj3KWtb3bIQP8B",
+    "expiryMonth": "05",
+    "expiryYear": "2030",
+    "atmPin": "enc:v1:icg4vPz1B9L+WcEfMhpwwucsbsNKnujSsTy+oT0fhwU=",
+    "cvv": "enc:v1:ziXwH7OJ6RKbmq9grYDY5L0dhiy9OHym0B0YP0/G2g=="
   }
 }

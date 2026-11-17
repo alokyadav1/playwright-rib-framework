@@ -8,8 +8,12 @@ import { decrypt, encrypt, isEncrypted } from '../src/core/crypto.js';
 const SENSITIVE_KEY = /pass(word)?|secret|token|email|cardnumber|cvv|cvc|accountnumber|customerid|userid|(^|_)(pin|otp|pan|aadhaar|aadhar|mobile|phone)($|_)|transactionpin|mpin|tpin|mobilenumber|phonenumber|cifnumber|aadhaarnumber|aadharnumber|pannumber|otpvalue|otpcode|securityanswer/i;
 const PLACEHOLDER = '__REQUIRED__'; // reported by `npm run agent:inventory pending`, not a plaintext secret
 
-// Hidden prompt: the value never lands in shell history or the terminal.
-// (_writeToOutput is an undocumented readline internal, but widely used for this.)
+/**
+ * Reads a secret without echoing it or placing it in shell history.
+ * Uses readline's undocumented output hook to suppress typed characters.
+ * @param question Prompt displayed before input.
+ * @returns The entered value.
+ */
 function promptHidden(question: string): Promise<string> {
   return new Promise((res) => {
     const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: true });
@@ -23,6 +27,11 @@ function promptHidden(question: string): Promise<string> {
   });
 }
 
+/**
+ * Recursively finds JSON files below the data directory.
+ * @param dir Directory to scan.
+ * @returns Paths to JSON files.
+ */
 function* jsonFiles(dir: string): Generator<string> {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
@@ -31,6 +40,13 @@ function* jsonFiles(dir: string): Generator<string> {
   }
 }
 
+/**
+ * Checks sensitive fields and encrypted values without exposing their contents.
+ * @param node JSON value to inspect.
+ * @param path Key path used in error messages.
+ * @param file Source file used in error messages.
+ * @param errors Receives validation errors.
+ */
 function check(node: unknown, path: string, file: string, errors: string[]): void {
   if (typeof node === 'string') {
     if (isEncrypted(node)) {
@@ -57,6 +73,7 @@ function check(node: unknown, path: string, file: string, errors: string[]): voi
   }
 }
 
+/** Runs the requested key generation, encryption, decryption, or data check command. */
 async function main(): Promise<void> {
   switch (process.argv[2]) {
     case 'keygen':

@@ -11,6 +11,12 @@ const root = process.cwd();
 const section = process.argv[2] ?? 'all';
 const PLACEHOLDER = '__REQUIRED__';
 
+/**
+ * Recursively finds files with the requested extension when the directory exists.
+ * @param dir Directory to scan.
+ * @param ext File extension to match.
+ * @returns Matching file paths.
+ */
 function* walk(dir: string, ext: string): Generator<string> {
   if (!existsSync(dir)) return;
   for (const name of readdirSync(dir)) {
@@ -20,6 +26,12 @@ function* walk(dir: string, ext: string): Generator<string> {
   }
 }
 
+/**
+ * Flattens JSON leaves into paths while retaining values for placeholder checks.
+ * @param node JSON value to traverse.
+ * @param prefix Path accumulated from parent keys.
+ * @returns Leaf paths paired with their values.
+ */
 function entries(node: unknown, prefix = ''): [string, unknown][] {
   if (node !== null && typeof node === 'object' && !Array.isArray(node)) {
     return Object.entries(node).flatMap(([k, v]) => entries(v, prefix ? `${prefix}.${k}` : k));
@@ -30,11 +42,17 @@ function entries(node: unknown, prefix = ''): [string, unknown][] {
   return [[prefix, node]];
 }
 
+/**
+ * Prints an inventory section containing names and paths only.
+ * @param title Section heading.
+ * @param rows Inventory rows without data values.
+ */
 function print(title: string, rows: string[]): void {
   console.log(`\n## ${title} (${rows.length})`);
   for (const r of rows) console.log(`- ${r}`);
 }
 
+/** Lists step expressions found in test step files as a discovery aid. */
 function steps(): void {
   const re = /\b(Given|When|Then)\(\s*(['"`])((?:\\.|(?!\2).)*)\2/g;
   const rows: string[] = [];
@@ -45,6 +63,7 @@ function steps(): void {
   print('Step definitions (use `npx bddgen export` as the authoritative list)', rows.sort());
 }
 
+/** Lists page, component, and verification methods using a best-effort source scan. */
 function pages(): void {
   const rows: string[] = [];
   for (const dir of ['pages', 'components', 'verifications']) {
@@ -59,6 +78,12 @@ function pages(): void {
   print('Pages, components, verifications (best-effort method list)', rows);
 }
 
+/**
+ * Lists JSON key paths without printing their values.
+ * @param title Section heading.
+ * @param dir Directory containing JSON files.
+ * @param topLevelOnly Whether to list only root keys.
+ */
 function keys(title: string, dir: string, topLevelOnly = false): void {
   const rows: string[] = [];
   for (const f of walk(dir, '.json')) {
@@ -69,6 +94,7 @@ function keys(title: string, dir: string, topLevelOnly = false): void {
   print(title, rows);
 }
 
+/** Lists unresolved placeholder paths across framework configuration and data. */
 function pending(): void {
   const rows: string[] = [];
   for (const dir of ['data', 'labels', 'locators', 'config/banks']) {
