@@ -80,10 +80,6 @@ export class ForgotPasswordPage extends BasePage {
     this.expiryOptions = page.getByRole("option");
   }
 
-  async openForm(path: string): Promise<void> {
-    await this.page.goto(path);
-  }
-
   async submit(): Promise<void> {
     await this.continueButton.click();
   }

@@ -79,10 +79,6 @@ export class ForgotUserIdPage extends BasePage {
     this.resultAlert = page.getByRole("alert");
   }
 
-  async openForm(path: string): Promise<void> {
-    await this.page.goto(path);
-  }
-
   async submit(): Promise<void> {
     await this.continueButton.click();
   }

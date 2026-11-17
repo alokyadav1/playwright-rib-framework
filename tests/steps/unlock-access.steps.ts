@@ -1,13 +1,6 @@
 import { getByKey } from "../../src/core/data-key.js";
-import { Given, Then, When, test } from "../../src/fixtures/index.js";
+import { Then, When, test } from "../../src/fixtures/index.js";
 import type { UnlockAccessDetails } from "../../src/pages/UnlockAccessPage.js";
-
-Given(
-  "The user opens the Bandhan Bank unlock access form {string}",
-  async ({ unlockAccessPage, data }, pathKey: string) => {
-    await unlockAccessPage.openUnlockAccess(getByKey<string>(data, pathKey));
-  },
-);
 
 When(
   "The user enters personal details from {string}",

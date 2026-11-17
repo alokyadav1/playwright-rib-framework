@@ -17,6 +17,11 @@ export class LoginPage extends BasePage {
   readonly otpInput: Locator;
   readonly otpSubmitBtn: Locator;
   readonly accountCardContainer: Locator;
+  readonly forgotUserIdLink: Locator;
+  readonly forgotPasswordLink: Locator;
+  readonly customerIdLoginOption: Locator;
+  readonly knowCustomerIdLink: Locator;
+  readonly unlockAccessNavigation: Locator;
   private readonly otpEntry: OtpEntry;
 
   constructor(page: Page, private readonly labels: Labels) {
@@ -51,10 +56,48 @@ export class LoginPage extends BasePage {
     this.otpInput = this.otpEntry.input;
     this.otpSubmitBtn = this.otpEntry.submitButton;
     this.accountCardContainer = this.element('accountCardContainer');
+    this.forgotUserIdLink = page.getByRole('link', {
+      name: getLabel(labels, 'preloginForgotUserIdLink'),
+      exact: true,
+    });
+    this.forgotPasswordLink = page.getByRole('link', {
+      name: getLabel(labels, 'preloginForgotPasswordLink'),
+      exact: true,
+    });
+    this.customerIdLoginOption = page.getByRole('radio', {
+      name: getLabel(labels, 'kcidCustomerIdOption'),
+      exact: true,
+    });
+    this.knowCustomerIdLink = page.getByRole('link', {
+      name: getLabel(labels, 'kcidKnowCustomerIdLink'),
+      exact: true,
+    });
+    this.unlockAccessNavigation = this.element('unlockAccessNavigation');
   }
 
   async openLoginPage(): Promise<void> {
     await this.page.goto('/');
+  }
+
+  async openUnlockAccessFromPrelogin(): Promise<void> {
+    await this.openLoginPage();
+    await this.unlockAccessNavigation.click();
+  }
+
+  async openForgotUserIdFromPrelogin(): Promise<void> {
+    await this.openLoginPage();
+    await this.forgotUserIdLink.click();
+  }
+
+  async openForgotPasswordFromPrelogin(): Promise<void> {
+    await this.openLoginPage();
+    await this.forgotPasswordLink.click();
+  }
+
+  async openKnowCustomerIdFromPrelogin(): Promise<void> {
+    await this.openLoginPage();
+    await this.customerIdLoginOption.click();
+    await this.knowCustomerIdLink.click();
   }
 
   async submitLogin(): Promise<void> {

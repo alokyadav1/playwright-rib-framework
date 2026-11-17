@@ -1,12 +1,5 @@
 import { getByKey } from "../../src/core/data-key.js";
-import { Given, Then, When } from "../../src/fixtures/index.js";
-
-Given(
-  "The user opens the Bandhan Bank Forgot Password Debit Card verification form {string}",
-  async ({ forgotPasswordPage, data }, pathKey: string) => {
-    await forgotPasswordPage.openForm(getByKey<string>(data, pathKey));
-  },
-);
+import { Then, When } from "../../src/fixtures/index.js";
 
 When(
   "The user selects Continue for Forgot Password",

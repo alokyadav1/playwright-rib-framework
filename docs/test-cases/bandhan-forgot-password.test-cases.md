@@ -15,7 +15,7 @@
 - **Short description** — Submit the Debit Card verification form with Customer ID, card number, and ATM PIN empty; verify the three specified messages appear together and no expiry validation feedback appears.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot Password Debit Card verification form is open. Customer ID, card number, and ATM PIN are empty. Leave expiry controls in their initial state.
-- **Data required** — `navigation.fpwdPath` (`?page=user-information`, FSD §1); `label fpwdRequiredCustomerIdMessage` (exact text: “Please provide your Customer Id to proceed”); `label fpwdRequiredCardNumberMessage` (exact text: “Please provide your card number to proceed”); `label fpwdRequiredAtmPinMessage` (exact text: “Please provide your ATM pin to proceed”).
+- **Data required** — Prelogin `Forgot Password` link observed in UAT; `label fpwdRequiredCustomerIdMessage` (exact text: “Please provide your Customer Id to proceed”); `label fpwdRequiredCardNumberMessage` (exact text: “Please provide your card number to proceed”); `label fpwdRequiredAtmPinMessage` (exact text: “Please provide your ATM pin to proceed”).
 - **Steps**
   1. The user leaves Customer ID empty.
   2. The user leaves card number empty.
@@ -37,7 +37,7 @@
 - **Short description** — Enter a 17-digit debit card number and verify the field retains only 16 digits.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot Password Debit Card verification form is open. This case does not select Continue or submit card details.
-- **Data required** — `navigation.fpwdPath` (`?page=user-information`, FSD §1); `fpwdInputs.cardBoundarySamples.length17` (user-approved encrypted 17-digit test sample).
+- **Data required** — Prelogin `Forgot Password` link observed in UAT; `fpwdInputs.cardBoundarySamples.length17` (user-approved encrypted 17-digit test sample).
 - **Steps**
   1. The user enters the approved 17-digit sample.
 - **Expected result**
@@ -52,7 +52,7 @@
 - **Short description** — Submit a nonempty three-digit ATM PIN with the other required verification inputs populated and verify the specified length message.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot Password Debit Card verification form is open. An approved test setup can populate Customer ID, card number, and a future expiry without reaching backend authentication.
-- **Data required** — `navigation.fpwdPath` (`?page=user-information`, FSD §1); `fpwdInputs.shortLengthInputs` (approved nonempty Customer ID, card number, and nonempty three-digit ATM PIN; **INFERRED (basis: §2 specifies four digits and §3 selects a value below four digits)**; a currently available non-expired expiry option is selected from the UI; no values recorded here); `label fpwdInvalidAtmPinLengthMessage` (exact text: “ATM pin should have 4 digits. Please enter a valid ATM pin.”).
+- **Data required** — Prelogin `Forgot Password` link observed in UAT; `fpwdInputs.shortLengthInputs` (approved nonempty Customer ID, card number, and nonempty three-digit ATM PIN; **INFERRED (basis: §2 specifies four digits and §3 selects a value below four digits)**; a currently available non-expired expiry option is selected from the UI; no values recorded here); `label fpwdInvalidAtmPinLengthMessage` (exact text: “ATM pin should have 4 digits. Please enter a valid ATM pin.”).
 - **Steps**
   1. The user enters the approved nonempty Customer ID.
   2. The user enters the approved nonempty card number.
@@ -71,7 +71,7 @@
 - **Short description** — Verify no expiry option representing a date before the current month can be selected.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot Password Debit Card verification form is open. Determine expired year/month combinations from the current date and the options shown at execution time; do not use fixed dates.
-- **Data required** — `navigation.fpwdPath` (`?page=user-information`, FSD §1); current date and expiry choices available in the form.
+- **Data required** — Prelogin `Forgot Password` link observed in UAT; current date and expiry choices available in the form.
 - **Steps**
   1. The user opens the expiry year options.
   2. The user opens the expiry month options for the current year.

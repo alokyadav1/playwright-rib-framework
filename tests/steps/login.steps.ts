@@ -5,6 +5,22 @@ Given('The user opens the Bandhan Bank login page', async ({ loginPage }) => {
   await loginPage.openLoginPage();
 });
 
+Given('The user opens Unlock Access from prelogin', async ({ loginPage }) => {
+  await loginPage.openUnlockAccessFromPrelogin();
+});
+
+Given('The user opens Forgot User ID from prelogin', async ({ loginPage }) => {
+  await loginPage.openForgotUserIdFromPrelogin();
+});
+
+Given('The user opens Forgot Password from prelogin', async ({ loginPage }) => {
+  await loginPage.openForgotPasswordFromPrelogin();
+});
+
+Given('The user opens Know Your Customer ID from prelogin', async ({ loginPage }) => {
+  await loginPage.openKnowCustomerIdFromPrelogin();
+});
+
 Then('The user sees Proceed enabled', async ({ loginVerify }) => {
   await loginVerify.proceedIsEnabled();
 });

@@ -17,6 +17,8 @@
   "loginInvalidCredentialsHeading": "Uh-oh! Looks like the credentials entered are incorrect",
   "loginInvalidCredentialsMessage": "Please check the entered details and try again.",
   "loginTryAgainButton": "Try Again",
+  "preloginForgotUserIdLink": "Forgot User ID",
+  "preloginForgotPasswordLink": "Forgot Password",
   "sessionExpiredMessage": "__REQUIRED__",
   "transferExpectedStatus": "__REQUIRED__",
   "unlockInvalidPanMessage": "Please provide a valid PAN to proceed.",

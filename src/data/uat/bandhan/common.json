@@ -72,12 +72,6 @@
       "atmValue": "enc:v1:p/zZQ/7Jvb6aD9G80lyx0X2o4bl/btAMibicH4Hp0g=="
     }
   },
-  "navigation": {
-    "kcidPath": "/?page=know-your-customer",
-    "fuidPath": "/?page=user-recovery-info",
-    "unlockAccessPath": "?page=unlock-user-id",
-    "fpwdPath": "?page=user-information"
-  },
   "fpwdInputs": {
     "cardBoundarySamples": {
       "length17": "enc:v1:gTD38dmG6dIhKd9rRH269omXCKIjuhMox8VKjB9C0+Jae7NksR2buOnTq/2A"

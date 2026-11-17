@@ -1,13 +1,6 @@
 import { getByKey } from '../../src/core/data-key.js';
-import { Given, Then, When, test } from '../../src/fixtures/index.js';
+import { Then, When, test } from '../../src/fixtures/index.js';
 import type { UnassociatedCardProfile } from '../../src/pages/ForgotUserIdPage.js';
-
-Given(
-  'The user opens the Bandhan Bank Forgot User ID Debit Card form {string}',
-  async ({ forgotUserIdPage, data }, pathKey: string) => {
-    await forgotUserIdPage.openForm(getByKey<string>(data, pathKey));
-  },
-);
 
 When('The user selects Continue for Forgot User ID', async ({ forgotUserIdPage }) => {
   await forgotUserIdPage.submit();

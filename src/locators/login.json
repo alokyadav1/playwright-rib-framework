@@ -1,4 +1,5 @@
 {
   "errorModalImg": "[role=\"alert\"] .success-tick-img",
-  "accountCardContainer": ".account-card"
+  "accountCardContainer": ".account-card",
+  "unlockAccessNavigation": ".unlockdiv .rightseconddiv"
 }

@@ -48,10 +48,6 @@ export class UnlockAccessPage extends BasePage {
     this.resultAlert = page.getByRole("alert");
   }
 
-  async openUnlockAccess(path: string): Promise<void> {
-    await this.page.goto(path);
-  }
-
   async enterPersonalDetails(details: UnlockAccessDetails): Promise<void> {
     await this.customerIdInput.fill(details.customerId);
     await this.dateOfBirthInput.fill(details.dateOfBirth);

@@ -43,10 +43,6 @@ export class CustomerIdPage extends BasePage {
     this.resultAlert = page.getByRole('alert');
   }
 
-  async openCustomerIdForm(path: string): Promise<void> {
-    await this.page.goto(path);
-  }
-
   async enterLookupDetails(details: CustomerIdLookupDetails): Promise<void> {
     await this.mobileInput.fill(details.mobile);
     await this.dateOfBirthInput.fill(details.dateOfBirth);

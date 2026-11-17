@@ -1,13 +1,6 @@
 import { getByKey } from '../../src/core/data-key.js';
-import { Given, Then, When, test } from '../../src/fixtures/index.js';
+import { Then, When, test } from '../../src/fixtures/index.js';
 import type { CustomerIdLookupDetails } from '../../src/pages/CustomerIdPage.js';
-
-Given(
-  'The user opens the Bandhan Bank Customer ID form {string}',
-  async ({ customerIdPage, data }, pathKey: string) => {
-    await customerIdPage.openCustomerIdForm(getByKey<string>(data, pathKey));
-  },
-);
 
 When('The user selects Continue for Customer ID retrieval', async ({ customerIdPage }) => {
   await customerIdPage.submitLookupDetails();
