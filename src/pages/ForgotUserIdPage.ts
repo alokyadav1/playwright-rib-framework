@@ -1,8 +1,17 @@
 import type { Locator, Page } from "@playwright/test";
+import { OtpEntry } from "../components/OtpEntry.js";
 import { getLabel } from "../core/label-key.js";
 import type { Labels } from "../core/runtime.js";
 import forgotUserIdLocators from "../locators/forgotUserId.json" with { type: "json" };
 import { BasePage } from "./BasePage.js";
+
+export type UnassociatedCardProfile = {
+  customerId: string;
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  atmPin: string;
+};
 
 export class ForgotUserIdPage extends BasePage {
   readonly customerIdInput: Locator;
@@ -16,6 +25,9 @@ export class ForgotUserIdPage extends BasePage {
   readonly expiryMonthMessageContainer: Locator;
   readonly atmPinMessageContainer: Locator;
   readonly expiryOptions: Locator;
+  readonly otpInput: Locator;
+  readonly otpSubmitButton: Locator;
+  readonly resultAlert: Locator;
 
   constructor(page: Page, labels: Labels) {
     super(page, forgotUserIdLocators);
@@ -61,6 +73,10 @@ export class ForgotUserIdPage extends BasePage {
       pinWidget,
     );
     this.expiryOptions = page.getByRole("option");
+    const otpEntry = new OtpEntry(page, labels);
+    this.otpInput = otpEntry.input;
+    this.otpSubmitButton = otpEntry.submitButton;
+    this.resultAlert = page.getByRole("alert");
   }
 
   async openForm(path: string): Promise<void> {
@@ -95,6 +111,17 @@ export class ForgotUserIdPage extends BasePage {
 
   async enterAtmPin(pin: string): Promise<void> {
     await this.atmPinInput.fill(pin);
+  }
+
+  async selectExpiry({ expiryMonth, expiryYear }: UnassociatedCardProfile): Promise<void> {
+    await this.expiryYearSelect.click();
+    await this.page.getByRole("option", { name: expiryYear, exact: true }).click();
+    await this.expiryMonthSelect.click();
+    await this.page.getByRole("option", { name: expiryMonth, exact: true }).click();
+  }
+
+  modalIcon(modal: Locator): Locator {
+    return this.element("modalIcon", modal);
   }
 
   async selectEarliestAvailableExpiryMonth(): Promise<void> {

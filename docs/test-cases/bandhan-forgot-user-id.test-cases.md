@@ -1,10 +1,11 @@
 # Bandhan Bank Forgot User ID test cases
 
-- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.1, 12 November 2026
-- **Scope:** The four intents in §3 only.
-- **Status:** Four case designs approved by the user on 16 November 2026; RIB_FUID_002 was amended with user approval for an 18-digit paste sample. Automation exists; see the traceability record for UAT results. The source FSD is draft for functional review.
+- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.2, 17 November 2026
+- **Scope:** The five intents in §3 only.
+- **Status:** Four existing case designs were approved by the user on 16 November 2026. RIB_FUID_005 was approved by the user after review of the 17 November 2026 design; implementation awaits its UAT profile and OTP access. Existing automation results remain unchanged; see the traceability record.
+- **Change (17 November 2026):** Added RIB_FUID_005 for a valid debit card that is not associated with the submitted Customer ID.
 - **Amendment (16 November 2026):** The user approved an 18-digit paste sample for RIB_FUID_002; the expected field cap remains 16 digits.
-- **Open questions:** None for data design. Runtime UI locators and month/year options were verified during implementation.
+- **Open questions:** NEEDS INPUT: owner-provisioned encrypted mismatched Customer ID/debit-card profile and authorized access to the correct OTP for RIB_FUID_005. Runtime UI locators for the new flow must be verified after case approval.
 
 ## RIB_FUID_001 - Verify required-field messages appear together
 
@@ -84,3 +85,24 @@
   1. No year before the current year is offered. [FR-FUID-005.2]
   2. No month before the current month is offered for the current year, so an expired date cannot be selected. [FR-FUID-005.2]
 - **Open items** — None for data. Future-option coverage and the current-year preselection are not separate outcomes in the selected POC.
+
+## RIB_FUID_005 - Verify an unassociated debit card shows the specified Error modal after OTP
+
+- **Test Case ID** — RIB_FUID_005
+- **Title** — Verify an unassociated debit card shows the specified Error modal after OTP
+- **Requirement(s)** — FR-FUID-006.1, FR-FUID-006.2, FR-FUID-006.3
+- **Short description** — Submit a valid Customer ID with valid debit-card details for a card associated with a different customer, complete verification with the correct OTP, and verify the specified Error modal.
+- **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
+- **Preconditions** — The Forgot User ID Debit Card form is open. An owner-approved UAT profile provides a valid Customer ID and a valid, non-expired debit card associated with a different customer. The user has authorized access to the OTP channel used by the active challenge.
+- **Data required** — `NEEDS INPUT: fuidInputs.unassociatedCardProfile` in the approved encrypted data source, containing the valid Customer ID and the other customer's valid card number, selectable expiry month/year, and valid ATM PIN; the correct OTP is received through the authorized channel and is not persisted; `label loginErrorModalTitle` (existing label: “Error”); `label fuidIncorrectDebitCardMessage` (exact FSD text: “Debit card detail is incorrect. Please enter correct details.”); `label loginOkayButton` (existing label: “Okay”).
+- **Steps**
+  1. The user enters the valid Customer ID from the approved mismatched profile.
+  2. The user enters the valid debit-card details associated with the other customer.
+  3. The user selects Continue.
+  4. The user enters the correct OTP received through the authorized channel.
+  5. The user submits the OTP.
+- **Expected result**
+  1. The system opens OTP verification after the debit-card form is submitted. [FR-FUID-006.1]
+  2. After the correct OTP is submitted, the system opens an Error modal. [FR-FUID-006.2]
+  3. The Error modal displays an error icon, `label loginErrorModalTitle` with title “Error”, `label fuidIncorrectDebitCardMessage` with exact text “Debit card detail is incorrect. Please enter correct details.”, and `label loginOkayButton` with text “Okay”. [FR-FUID-006.3]
+- **Open items** — NEEDS INPUT: provision `fuidInputs.unassociatedCardProfile` in the approved encrypted source and confirm authorized access to the correct OTP channel. Locators must be observed and verified during implementation; none are inferred from the screenshot.

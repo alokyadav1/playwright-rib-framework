@@ -1,7 +1,7 @@
 # Bandhan Bank Forgot User ID traceability
 
-- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.1, 12 November 2026
-- **Selected scope:** Four case intents in §3; designs approved by the user on 16 November 2026. RIB_FUID_002 uses the user-approved 18-digit paste sample. Existing UAT outcomes are recorded below.
+- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.2, 17 November 2026
+- **Selected scope:** Five case intents in §3. The first four designs were approved by the user on 16 November 2026; RIB_FUID_005 was approved after review of the 17 November 2026 design. Existing UAT outcomes are recorded below.
 
 | Requirement | Case | Expected outcome | Evidence source | State |
 |---|---|---|---|---|
@@ -10,6 +10,7 @@
 | FR-FUID-004.1 | RIB_FUID_003 | A nonempty three-digit PIN is rejected as shorter than the required four digits. | Forgot User ID FSD §2 | Partial coverage; four-digit acceptance is not in the selected intent; UAT pass for short-PIN rejection |
 | FR-FUID-004.2 | RIB_FUID_003 | Nonempty three-digit PIN displays the exact invalid-length message on Continue. | Forgot User ID FSD §2 | Verified; UAT pass; client-side validation confirmed |
 | FR-FUID-005.2 | RIB_FUID_004 | An expired expiry date cannot be selected. | Forgot User ID FSD §2 | Verified; UAT pass; current year/month options exclude expired choices |
+| FR-FUID-006.1-.3 | RIB_FUID_005 | A valid but unassociated debit card opens OTP verification and, after correct OTP, displays the specified Error modal. | Forgot User ID FSD §2; user-supplied screenshot dated 17 November 2026 | Approved; blocked at CP2 pending profile and OTP access |
 
 ## Uncovered or deferred requirements
 
@@ -26,6 +27,7 @@
 - RIB_FUID_002: data-ready; encrypted synthetic 15-, 16-, 17-, and 18-digit test-only samples are present.
 - RIB_FUID_003: data-ready; existing encrypted Customer ID and encrypted synthetic card/PIN values are available; user confirmed client-side validation before backend authentication. Expiry is selected from current UI options.
 - RIB_FUID_004: data-ready; no static values required; runtime options must be inspected to verify the expired-date behavior.
-- Approved cases: 4; expected examples: 4; one project.
-- Exact listing command: `npm run test:list -- --grep "RIB_FUID_00[1-4] -"`.
+- RIB_FUID_005: blocked before implementation; needs an approved encrypted mismatched Customer ID/card profile and authorized access to the correct OTP channel.
+- Approved cases: 5; RIB_FUID_005 blocked at CP2. Existing automated examples: 4; one project.
+- Exact existing listing command: `npm run test:list -- --grep "RIB_FUID_00[1-4] -"`. After approval and implementation, include RIB_FUID_005.
 - RIB_FUID_001, 003, and 004 passed in UAT; RIB_FUID_002 remains failed and unresolved. No case is reported as fully verified outside the recorded assertions.

@@ -1,9 +1,9 @@
 # Bandhan Bank Forgot User ID requirements
 
-- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.1, 12 November 2026
+- **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.2, 17 November 2026
 - **Source status:** Draft for functional review
 - **FSD source context:** TEST_ENV=uat, BANK=bandhan, LOCALE=en-in
-- **Scope:** The four case intents in §3 only. No successful recovery, downstream OTP, delivery, or compliance coverage is included.
+- **Scope:** The five case intents in §3 only. No successful recovery, recovered User ID delivery, or compliance coverage is included.
 
 | ID | Source | Atomic behavior | Type | Testability and disposition |
 |---|---|---|---|---|
@@ -22,10 +22,14 @@
 | FR-FUID-004.2 | §2 | On Continue, a nonempty PIN below four digits shows exactly “ATM pin should have 4 digits. Please enter a valid ATM pin.” | Validation | Testable; selected by RIB_FUID_003. Other required fields must be populated to isolate this outcome. |
 | FR-FUID-005.1 | §2 | Expiry month/year dropdowns provide future date options. | Functional | Testable; future-option coverage is not independently selected. |
 | FR-FUID-005.2 | §2 | An expired expiry date cannot be selected. | Validation | Testable; selected by RIB_FUID_004 using date-relative options observed at runtime. |
+| FR-FUID-006.1 | §2 | A valid Customer ID and otherwise valid debit-card details for a card not associated with that Customer ID are accepted through initial submission and open OTP verification. | Functional / validation | Testable; selected by RIB_FUID_005. Requires an owner-provisioned mismatched Customer ID/card profile. |
+| FR-FUID-006.2 | §2 | After the correct OTP is submitted for the mismatched-card flow, an Error modal opens. | Functional / validation | Testable; selected by RIB_FUID_005. Requires access to the registered OTP channel. |
+| FR-FUID-006.3 | §2 | The mismatched-card Error modal shows an error icon, title “Error”, exact message “Debit card detail is incorrect. Please enter correct details.”, and an “Okay” button. | UI | Testable; selected by RIB_FUID_005 from the supplied screenshot. |
 
 ## Gaps and exclusions
 
-- Successful User ID recovery, downstream OTP, and delivery of the recovered User ID are deferred by the FSD because the complete flow and usable debit-card details are unavailable.
+- Successful User ID recovery and delivery of the recovered User ID remain deferred because the complete successful flow and associated valid debit-card details are unavailable.
+- RIB_FUID_005 requires an approved encrypted profile containing a valid Customer ID and a valid debit card associated with a different customer, plus authorized access to the OTP delivered for the active challenge.
 - FR-FUID-003.1 requires explicitly approved synthetic digit-only samples; none currently exist in the UAT data inventory.
 - RIB_FUID_003 needs an approved test-data/setup path for Customer ID, card number, non-expired expiry, and a nonempty three-digit PIN. The FSD does not establish whether those inputs remain client-side or could reach backend authentication.
 - The empty-required-fields case does not assert a missing-year message because the current year is preselected.

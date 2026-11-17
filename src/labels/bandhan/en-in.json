@@ -49,6 +49,7 @@
   "fuidRequiredExpiryMonthMessage": "Please provide your card expiry month to proceed",
   "fuidRequiredAtmPinMessage": "Please provide your ATM pin to proceed",
   "fuidInvalidAtmPinLengthMessage": "ATM pin should have 4 digits. Please enter a valid ATM pin.",
+  "fuidIncorrectDebitCardMessage": "Debit card detail is incorrect. Please enter correct details.",
   "fpwdRequiredCustomerIdMessage": "Please provide your Customer Id to proceed",
   "fpwdRequiredCardNumberMessage": "Please provide your card number to proceed",
   "fpwdRequiredAtmPinMessage": "Please provide your ATM pin to proceed",

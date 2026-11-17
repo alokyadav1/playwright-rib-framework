@@ -2,5 +2,6 @@
   "textInputWidget": "oj-input-text",
   "pinInputWidget": "oj-input-password",
   "expirySelectWidget": "oj-select-one",
-  "inlineMessageContainer": ".oj-user-assistance-inline-container"
+  "inlineMessageContainer": ".oj-user-assistance-inline-container",
+  "modalIcon": ".success-tick-img"
 }

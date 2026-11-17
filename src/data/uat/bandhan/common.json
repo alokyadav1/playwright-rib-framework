@@ -57,6 +57,13 @@
     }
   },
   "fuidInputs": {
+    "unassociatedCardProfile": {
+      "customerId": "enc:v1:ldireLYP+2FQEdY0LkjMsSmhYy8xyNZyy2XdV2H62MPp77rjRA==",
+      "cardNumber": "enc:v1:yKiIY5u6P6VC2fxi4GU/dhpwJuT78vWVCm9vD+B7pm0CD8PfV/Hn/RY2qdo=",
+      "expiryMonth": "12",
+      "expiryYear": "2030",
+      "atmPin": "enc:v1:1CSIaMJB9Uj6v262rhqVDHxne3ibGf/JgDYzrayITxI="
+    },
     "cardBoundarySamples": {
       "length15": "enc:v1:jJSyxn1hQelgyf9vmx6dmOE0vTDd7RHG15MUqPtDDTeBF4XJhal+yWMk2Q==",
       "length16": "enc:v1:A/3BD1wGYVivNSWbjOM5KF7oIgOr4QQfjutM1e5JKKymXwLgGQ2mykVGIq4=",

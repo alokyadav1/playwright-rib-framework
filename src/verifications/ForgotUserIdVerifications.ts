@@ -44,6 +44,30 @@ export class ForgotUserIdVerifications {
     ).toHaveText(message);
   }
 
+  async showsOtpVerification(): Promise<void> {
+    await Promise.all([
+      expect(this.forgotUserId.otpInput).toBeVisible({ timeout: 60_000 }),
+      expect(this.forgotUserId.otpSubmitButton).toBeVisible({ timeout: 60_000 }),
+    ]);
+  }
+
+  async showsIncorrectDebitCardModal(messageKey: string): Promise<void> {
+    const message = getLabel(this.labels, messageKey);
+    const modal = this.forgotUserId.resultAlert.filter({ hasText: message });
+    await expect(modal).toHaveCount(1, { timeout: 60_000 });
+    await expect(modal).toBeVisible();
+    await expect(modal.getByRole("heading", {
+      name: getLabel(this.labels, "loginErrorModalTitle"),
+      exact: true,
+    })).toBeVisible();
+    await expect(modal.getByText(message, { exact: true })).toHaveText(message);
+    await expect(modal.getByRole("button", {
+      name: getLabel(this.labels, "loginOkayButton"),
+      exact: true,
+    })).toBeVisible();
+    await expect(this.forgotUserId.modalIcon(modal)).toBeVisible();
+  }
+
   async showsNoExpiredYearOptions(): Promise<void> {
     const currentYear = this.currentYearInIndia();
     await expect

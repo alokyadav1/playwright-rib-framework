@@ -17,7 +17,7 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: true,
   retries: 0,
-  workers: 1,
+  workers: "50%",
   reporter: [["html", { open: "never" }]],
   use: {
     baseURL,

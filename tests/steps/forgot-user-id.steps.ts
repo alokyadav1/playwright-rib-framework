@@ -1,5 +1,6 @@
 import { getByKey } from '../../src/core/data-key.js';
-import { Given, Then, When } from '../../src/fixtures/index.js';
+import { Given, Then, When, test } from '../../src/fixtures/index.js';
+import type { UnassociatedCardProfile } from '../../src/pages/ForgotUserIdPage.js';
 
 Given(
   'The user opens the Bandhan Bank Forgot User ID Debit Card form {string}',
@@ -46,6 +47,23 @@ When(
 
 When('The user selects the earliest available non-expired expiry month', async ({ forgotUserIdPage }) => {
   await forgotUserIdPage.selectEarliestAvailableExpiryMonth();
+});
+
+When('The user selects the expiry from {string}', async ({ forgotUserIdPage, data }, dataKey: string) => {
+  await forgotUserIdPage.selectExpiry(getByKey<UnassociatedCardProfile>(data, dataKey));
+});
+
+When('The user enters the ATM PIN from {string}', async ({ forgotUserIdPage, data }, dataKey: string) => {
+  await forgotUserIdPage.enterAtmPin(getByKey<string>(data, dataKey));
+});
+
+Then('The user sees Forgot User ID OTP verification', async ({ forgotUserIdVerify }) => {
+  test.setTimeout(90_000);
+  await forgotUserIdVerify.showsOtpVerification();
+});
+
+Then('The user sees the Forgot User ID Error modal {string}', async ({ forgotUserIdVerify }, messageKey: string) => {
+  await forgotUserIdVerify.showsIncorrectDebitCardModal(messageKey);
 });
 
 When(
