@@ -93,27 +93,6 @@ export class ForgotPasswordPage extends BasePage {
     await this.cardNumberInput.pressSequentially(value);
   }
 
-  async typeFinalCardDigit(cardSample: string): Promise<void> {
-    const digit = cardSample.slice(-1);
-    if (!/^\d$/.test(digit)) {
-      throw new Error("Card boundary sample must end with one digit");
-    }
-    await this.cardNumberInput.pressSequentially(digit);
-  }
-
-  async pasteCardSample(cardSample: string): Promise<void> {
-    await this.page.context().grantPermissions(
-      ["clipboard-read", "clipboard-write"],
-      { origin: new URL(this.page.url()).origin },
-    );
-    await this.page.evaluate(
-      async (value) => navigator.clipboard.writeText(value),
-      cardSample,
-    );
-    await this.cardNumberInput.clear();
-    await this.cardNumberInput.press("Control+V");
-  }
-
   async enterCustomerId(customerId: string): Promise<void> {
     await this.customerIdInput.fill(customerId);
   }

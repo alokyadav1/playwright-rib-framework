@@ -5,7 +5,7 @@
 - **Status:** All five case designs are approved, including the revised RIB_LOG_007 modal expectation.
 - **Open questions:** The user confirmed `credentials.registeredUser.password` is the intended key but reports the value is incorrect; manual UAT login currently does not reach OTP. The account owner must verify the encrypted local value and confirm manual login reaches OTP before retrying.
 
-## RIB_LOG_001 - Verify valid credentials and manual OTP reach Home Dashboard
+## RIB_LOG_001 - Correct login details and OTP open the Home Dashboard
 
 - **Test Case ID** — RIB_LOG_001
 - **Title** — Verify valid credentials and manual OTP reach Home Dashboard
@@ -27,7 +27,7 @@
   2. After valid OTP verification, the system redirects the user to Home Dashboard. [FR-LOG-006]
 - **Open items** — The user confirmed `credentials.registeredUser.password` is the intended key, but manual login currently does not reach OTP. Verify the encrypted local value and account readiness before retrying.
 
-## RIB_LOG_002 - Verify unchecked terms show the specified Error modal
+## RIB_LOG_002 - Continuing without accepting the terms shows an error
 
 - **Test Case ID** — RIB_LOG_002
 - **Title** — Verify unchecked terms show the specified Error modal
@@ -46,7 +46,7 @@
   3. The terms Error modal appears despite the empty credentials; login does not complete. [FR-LOG-005.2]
 - **Open items** — None for case design.
 
-## RIB_LOG_003 - Verify nonempty incorrect password shows invalid credentials modal
+## RIB_LOG_003 - Incorrect password shows an invalid login details error
 
 - **Test Case ID** — RIB_LOG_003
 - **Title** — Verify nonempty incorrect password shows invalid credentials modal
@@ -65,7 +65,7 @@
   2. Login does not complete and the user remains on the login page. [FR-LOG-010.1]
 - **Open items** — The user confirmed the account and incorrect-password value are suitable and verified this case passed after unlock. The prior automated run displayed a temporary account-lock alert.
 
-## RIB_LOG_006 - Verify User ID boundary-length blur validation
+## RIB_LOG_006 - User ID length message appears outside the 5 to 50 character limit
 
 - **Test Case ID** — RIB_LOG_006
 - **Title** — Verify User ID boundary-length blur validation
@@ -84,7 +84,7 @@
   4. For length 51, the system displays “Only Alpha numeric values and length 5-50 are allowed”. [FR-LOG-003, FR-LOG-011]
 - **Open items** — None; the user approved these synthetic boundary samples.
 
-## RIB_LOG_007 - Verify incorrect OTP displays Error modal
+## RIB_LOG_007 - Incorrect OTP shows an error
 
 - **Test Case ID** — RIB_LOG_007
 - **Title** — Verify incorrect OTP displays Error modal

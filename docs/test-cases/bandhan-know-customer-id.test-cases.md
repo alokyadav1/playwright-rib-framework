@@ -5,7 +5,7 @@
 - **Status:** Five case designs approved by the user on 16 November 2026; implementation in progress. The source FSD is draft for functional review. No cases are verified.
 - **Open questions:** None for case design. RIB_KCID_005 requires the user to enter the active OTP manually during headed UAT execution; no reusable OTP value is stored.
 
-## RIB_KCID_001 - Verify required mobile and date of birth messages appear together
+## RIB_KCID_001 - Empty mobile number and date of birth show required messages
 
 - **Test Case ID** — RIB_KCID_001
 - **Title** — Verify required mobile and date of birth messages appear together
@@ -23,7 +23,7 @@
   2. The system displays `label kcidRequiredDateOfBirthMessage` with exact text “Please provide your Date of birth to proceed” directly below the date-of-birth input, at the same time as the mobile message. [FR-KCID-002.2, FR-KCID-002.3]
 - **Open items** — None for case design.
 
-## RIB_KCID_002 - Verify the mobile input accepts up to 17 characters
+## RIB_KCID_002 - Mobile number accepts no more than 17 characters
 
 - **Test Case ID** — RIB_KCID_002
 - **Title** — Verify the mobile input accepts up to 17 characters
@@ -42,7 +42,7 @@
   3. The attempted 18th character is blocked and the input remains at 17 characters. [FR-KCID-003.3]
 - **Open items** — None.
 
-## RIB_KCID_003 - Verify nonmatching mobile and date of birth show Error modal
+## RIB_KCID_003 - Unmatched mobile number and date of birth show an error
 
 - **Test Case ID** — RIB_KCID_003
 - **Title** — Verify nonmatching mobile and date of birth show Error modal
@@ -59,7 +59,7 @@
   1. The system displays an Error modal with an error icon, `loginErrorModalTitle` with exact text “Error”, `label kcidDetailsMismatchMessage` with exact text “Details do not match with entered mobile number.”, and `loginOkayButton` with exact text “Okay”. [FR-KCID-004.1]
 - **Open items** — Invalid-format mobile/DOB behavior is not covered by this selected case.
 
-## RIB_KCID_004 - Verify incorrect OTP shows the specified Error modal
+## RIB_KCID_004 - Incorrect OTP shows an error
 
 - **Test Case ID** — RIB_KCID_004
 - **Title** — Verify incorrect OTP shows the specified Error modal
@@ -78,7 +78,7 @@
   2. The system displays an Error modal with an error icon, `loginErrorModalTitle` with exact text “Error”, `label kcidInvalidOtpMessage` with exact text “Please Enter Valid One Time Password”, and `loginOkayButton` with exact text “Okay”. [FR-KCID-006.1]
 - **Open items** — None. The generated incorrect OTP is not persisted.
 
-## RIB_KCID_005 - Verify valid manual OTP shows Customer ID retrieval confirmation
+## RIB_KCID_005 - Correct OTP confirms Customer ID retrieval
 
 - **Test Case ID** — RIB_KCID_005
 - **Title** — Verify valid manual OTP shows Customer ID retrieval confirmation

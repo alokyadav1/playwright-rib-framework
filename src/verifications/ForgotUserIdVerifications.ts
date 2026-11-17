@@ -30,9 +30,10 @@ export class ForgotUserIdVerifications {
     ]);
   }
 
-  async showsCardNumber(value: string): Promise<void> {
-    const expected = value.length > 16 ? value.slice(0, 16) : value;
-    await expect(this.forgotUserId.cardNumberInput).toHaveValue(expected);
+  async showsCardNumberDigitCount(digitCount: number): Promise<void> {
+    await expect(this.forgotUserId.cardNumberInput).toHaveValue(
+      new RegExp(`^\\d{${digitCount}}$`),
+    );
   }
 
   async showsInvalidAtmPinLengthMessage(messageKey: string): Promise<void> {
@@ -88,6 +89,35 @@ export class ForgotUserIdVerifications {
       .toBe(false);
   }
 
+  async showsCurrentAndNextTenExpiryYears(): Promise<void> {
+    const currentYear = this.currentYearInIndia();
+    const expectedYears = Array.from(
+      { length: 11 },
+      (_, offset) => currentYear + offset,
+    );
+    await expect.poll(() => this.visibleNumericExpiryOptions()).toEqual(
+      expectedYears,
+    );
+  }
+
+  async showsCurrentAndRemainingExpiryMonths(): Promise<void> {
+    const currentMonth = this.currentMonthInIndia();
+    const expectedMonths = Array.from(
+      { length: 13 - currentMonth },
+      (_, offset) => currentMonth + offset,
+    );
+    await expect.poll(() => this.visibleNumericExpiryOptions()).toEqual(
+      expectedMonths,
+    );
+  }
+
+  async showsAllExpiryMonths(): Promise<void> {
+    const expectedMonths = Array.from({ length: 12 }, (_, index) => index + 1);
+    await expect.poll(() => this.visibleNumericExpiryOptions()).toEqual(
+      expectedMonths,
+    );
+  }
+
   private async expectRequiredMessage(
     container: Locator,
     labelKey: string,
@@ -96,6 +126,12 @@ export class ForgotUserIdVerifications {
     await expect(container.getByText(message, { exact: true })).toHaveText(
       message,
     );
+  }
+
+  private async visibleNumericExpiryOptions(): Promise<number[]> {
+    return (await this.forgotUserId.expiryOptions.allTextContents())
+      .map((option) => Number(option.trim()))
+      .filter((option) => Number.isInteger(option));
   }
 
   private currentYearInIndia(): number {

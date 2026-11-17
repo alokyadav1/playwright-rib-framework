@@ -1,7 +1,7 @@
 Feature: Bandhan Bank login
 
 
-  Scenario: RIB_LOG_001 - Verify valid credentials and manual OTP reach Home Dashboard
+  Scenario: RIB_LOG_001 - Correct login details and OTP open the Home Dashboard
     Given The user opens the Bandhan Bank login page
     When The user enters the registered User ID from "credentials.registeredUser"
     And The user enters the registered password from "credentials.registeredUser"
@@ -12,7 +12,7 @@ Feature: Bandhan Bank login
     And The user submits the OTP
     Then The user sees Home Dashboard
 
-  Scenario: RIB_LOG_002 - Verify unchecked terms show the specified Error modal
+  Scenario: RIB_LOG_002 - Continuing without accepting the terms shows an error
     Given The user opens the Bandhan Bank login page
     When The user selects Proceed
     Then The user sees Proceed enabled
@@ -20,7 +20,7 @@ Feature: Bandhan Bank login
     And The user sees the terms Error icon
     And The user remains on the login page
 
-  Scenario: RIB_LOG_003 - Verify nonempty incorrect password shows invalid credentials modal
+  Scenario: RIB_LOG_003 - Incorrect password shows an invalid login details error
     Given The user opens the Bandhan Bank login page
     When The user enters the registered User ID from "credentials.registeredUser"
     And The user enters the nonempty incorrect password from "credentials.incorrectPassword"
@@ -29,7 +29,7 @@ Feature: Bandhan Bank login
     Then The user sees the invalid credentials modal "loginInvalidCredentialsHeading" and "loginInvalidCredentialsMessage"
     And The user remains on the login page
 
-  Scenario Outline: RIB_LOG_006 - Verify User ID boundary-length blur validation
+  Scenario Outline: RIB_LOG_006 - User ID length message appears outside the 5 to 50 character limit
     Given The user opens the Bandhan Bank login page
     When The user enters the User ID value from "<userIdKey>"
     And The user moves focus to Password
@@ -42,7 +42,7 @@ Feature: Bandhan Bank login
       | boundaryInputs.boundarySamples.length50 | loginUserIdFormatMessage | hidden     |
       | boundaryInputs.boundarySamples.length51 | loginUserIdFormatMessage | visible    |
 
-  Scenario: RIB_LOG_007 - Verify incorrect OTP displays Error modal
+  Scenario: RIB_LOG_007 - Incorrect OTP shows an error
     Given The user opens the Bandhan Bank login page
     When The user enters the registered User ID from "credentials.registeredUser"
     And The user enters the registered password from "credentials.registeredUser"

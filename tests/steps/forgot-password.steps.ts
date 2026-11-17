@@ -37,25 +37,9 @@ When(
 );
 
 Then(
-  "The user sees the Forgot Password card number value from {string}",
-  async ({ forgotPasswordVerify, data }, dataKey: string) => {
-    await forgotPasswordVerify.showsCardNumber(getByKey<string>(data, dataKey));
-  },
-);
-
-When(
-  "The user types the final Forgot Password card digit from {string}",
-  async ({ forgotPasswordPage, data }, dataKey: string) => {
-    await forgotPasswordPage.typeFinalCardDigit(
-      getByKey<string>(data, dataKey),
-    );
-  },
-);
-
-When(
-  "The user pastes the overlength Forgot Password card sample from {string}",
-  async ({ forgotPasswordPage, data }, dataKey: string) => {
-    await forgotPasswordPage.pasteCardSample(getByKey<string>(data, dataKey));
+  "The user sees {int} digits in the Forgot Password card number field",
+  async ({ forgotPasswordVerify }, digitCount: number) => {
+    await forgotPasswordVerify.showsCardNumberDigitCount(digitCount);
   },
 );
 

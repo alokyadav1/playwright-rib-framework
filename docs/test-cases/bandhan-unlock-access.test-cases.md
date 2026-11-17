@@ -8,7 +8,7 @@ Continuation update, 13 November 2026: the pending workspace change reuses the e
 - **Open questions:**
   - RIB_UNL_003's reused invalid-OTP modal and icon checks have not been exercised on Unlock Access.
 
-## RIB_UNL_001 - Verify invalid PAN shows exact inline feedback
+## RIB_UNL_001 - Invalid PAN shows an error below the PAN field
 
 - **Test Case ID** — RIB_UNL_001
 - **Title** — Verify invalid PAN shows exact inline feedback
@@ -26,7 +26,7 @@ Continuation update, 13 November 2026: the pending workspace change reuses the e
   1. The system displays `label unlockInvalidPanMessage` with exact text “Please provide a valid PAN to proceed.” directly below the PAN field. [FR-UNL-002.1, FR-UNL-002.2]
 - **Open items** — None for case design or data readiness.
 
-## RIB_UNL_002 - Verify incorrect personal details show Error after valid OTP
+## RIB_UNL_002 - Incorrect personal details show an error after a correct OTP
 
 - **Test Case ID** — RIB_UNL_002
 - **Title** — Verify incorrect personal details show Error after valid OTP
@@ -45,7 +45,7 @@ Continuation update, 13 November 2026: the pending workspace change reuses the e
   2. After valid OTP verification, the system displays an Error modal with title “Error”, `label unlockFetchErrorMessage` with exact text “Error in fetching data.”, and an Okay button. The error icon is excluded by user-approved amendment. [OBS-UNL-001.2, FR-UNL-003.2]
 - **Open items** — Manual OTP is entered by the user at runtime. Run headed and wait up to 60 seconds for the expected modal without a fixed sleep.
 
-## RIB_UNL_003 - Verify invalid OTP shows the Error modal
+## RIB_UNL_003 - Incorrect OTP shows an error
 
 - **Test Case ID** — RIB_UNL_003
 - **Title** — Verify invalid OTP shows the Error modal
@@ -64,7 +64,7 @@ Continuation update, 13 November 2026: the pending workspace change reuses the e
   2. After OTP submission, a visible Error modal displays the exact Error title, Invalid OTP message, Okay button, and error icon checked by `LoginVerifications.showsInvalidOtpModal()`. [USER-AMEND-UNL-003]
 - **Open items** — The original FSD observations OBS-UNL-002.1 and OBS-UNL-002.2 are not covered by this amended case.
 
-## RIB_UNL_004 - Verify already-unlocked user sees the information modal
+## RIB_UNL_004 - User with active online banking sees an information message
 
 - **Test Case ID** — RIB_UNL_004
 - **Title** — Verify already-unlocked user sees the information modal

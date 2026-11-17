@@ -92,19 +92,6 @@ export class ForgotUserIdPage extends BasePage {
     await this.cardNumberInput.pressSequentially(value);
   }
 
-  async pasteCardSample(cardSample: string): Promise<void> {
-    await this.page.context().grantPermissions(
-      ["clipboard-read", "clipboard-write"],
-      { origin: new URL(this.page.url()).origin },
-    );
-    await this.page.evaluate(
-      async (value) => navigator.clipboard.writeText(value),
-      cardSample,
-    );
-    await this.cardNumberInput.clear();
-    await this.cardNumberInput.press("Control+V");
-  }
-
   async enterCustomerId(customerId: string): Promise<void> {
     await this.customerIdInput.fill(customerId);
   }
@@ -149,6 +136,24 @@ export class ForgotUserIdPage extends BasePage {
 
   async openExpiryMonthOptions(): Promise<void> {
     await this.expiryMonthSelect.click();
+  }
+
+  async selectCurrentExpiryYearFromOpenOptions(): Promise<void> {
+    await this.page
+      .getByRole("option", {
+        name: this.currentYearInIndia().toString(),
+        exact: true,
+      })
+      .click();
+  }
+
+  async selectEarliestFutureExpiryYearFromOpenOptions(): Promise<void> {
+    await this.page
+      .getByRole("option", {
+        name: (this.currentYearInIndia() + 1).toString(),
+        exact: true,
+      })
+      .click();
   }
 
   private currentYearInIndia(): number {

@@ -33,8 +33,10 @@ export class ForgotPasswordVerifications {
     ]);
   }
 
-  async showsCardNumber(value: string): Promise<void> {
-    await expect(this.forgotPassword.cardNumberInput).toHaveValue(value);
+  async showsCardNumberDigitCount(digitCount: number): Promise<void> {
+    await expect(this.forgotPassword.cardNumberInput).toHaveValue(
+      new RegExp(`^\\d{${digitCount}}$`),
+    );
   }
 
   async showsInvalidAtmPinLengthMessage(messageKey: string): Promise<void> {

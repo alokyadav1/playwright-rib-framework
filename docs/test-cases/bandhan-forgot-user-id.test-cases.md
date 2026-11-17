@@ -1,13 +1,13 @@
 # Bandhan Bank Forgot User ID test cases
 
 - **Source:** `docs/fsd/Bandhan_Bank_Forgot_User_ID_FSD.md`, version 1.2, 17 November 2026
-- **Scope:** The five intents in §3 only.
-- **Status:** Four existing case designs were approved by the user on 16 November 2026. RIB_FUID_005 was approved by the user after review of the 17 November 2026 design; implementation awaits its UAT profile and OTP access. Existing automation results remain unchanged; see the traceability record.
+- **Scope:** The five intents in §3 plus the user-requested expiry-option case RIB_FUID_006.
+- **Status:** The first four case designs are approved and verified in UAT, including the amended RIB_FUID_002. RIB_FUID_005 was approved after review of the 17 November 2026 design; see the traceability record for its current state.
 - **Change (17 November 2026):** Added RIB_FUID_005 for a valid debit card that is not associated with the submitted Customer ID.
-- **Amendment (16 November 2026):** The user approved an 18-digit paste sample for RIB_FUID_002; the expected field cap remains 16 digits.
+- **Amendment (17 November 2026):** RIB_FUID_002 now checks only that entering 17 digits retains 16 digits.
 - **Open questions:** NEEDS INPUT: owner-provisioned encrypted mismatched Customer ID/debit-card profile and authorized access to the correct OTP for RIB_FUID_005. Runtime UI locators for the new flow must be verified after case approval.
 
-## RIB_FUID_001 - Verify required-field messages appear together
+## RIB_FUID_001 - Empty required fields show all required messages
 
 - **Test Case ID** — RIB_FUID_001
 - **Title** — Verify required-field messages appear together
@@ -29,28 +29,22 @@
   4. The system displays `label fuidRequiredAtmPinMessage` with exact text “Please provide your ATM pin to proceed” directly below ATM PIN, with all four applicable messages shown together. [FR-FUID-002.4, FR-FUID-002.5]
 - **Open items** — None for data. The year is preselected; no year-required message is expected.
 
-## RIB_FUID_002 - Verify card number input is capped at 16 digits
+## RIB_FUID_002 - Entering 17 debit card digits keeps only 16 digits
 
 - **Test Case ID** — RIB_FUID_002
-- **Title** — Verify card number input is capped at 16 digits
+- **Title** — Entering 17 debit card digits keeps only 16 digits
 - **Requirement(s)** — FR-FUID-003.1
-- **Short description** — Verify 15- and 16-digit values are retained, a 17th typed digit is blocked, and an 18-digit paste does not exceed the 16-digit cap.
+- **Short description** — Enter a 17-digit debit card number and verify the field retains only 16 digits.
 - **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
 - **Preconditions** — The Forgot User ID Debit Card form is open. This case does not select Continue or submit card details.
-- **Data required** — `fuidInputs.cardBoundarySamples` (encrypted, synthetic digit-only samples with lengths 15, 16, 17, and 18; non-routable and used only for field-cap checks).
+- **Data required** — `fuidInputs.cardBoundarySamples.length17` (encrypted, synthetic digit-only sample used only for the field-cap check).
 - **Steps**
-  1. The user enters the approved 15-digit sample.
-  2. The user enters the approved 16-digit sample.
-  3. The user attempts to type a 17th digit after the 16-digit value.
-  4. The user pastes the approved 18-digit sample into the card number field.
+  1. The user enters the approved 17-digit sample.
 - **Expected result**
-  1. The card number field retains the 15-digit value. [FR-FUID-003.1]
-  2. The card number field retains the 16-digit value. [FR-FUID-003.1]
-  3. Typing beyond 16 digits is blocked and the value remains at 16 digits. [FR-FUID-003.1]
-  4. Pasting the 18-digit sample does not exceed 16 digits; the field retains 16 digits. [FR-FUID-003.1]
+  1. The card number field retains only 16 digits. [FR-FUID-003.1]
 - **Open items** — None; the case does not submit card details.
 
-## RIB_FUID_003 - Verify short ATM PIN shows the specified length message
+## RIB_FUID_003 - Short ATM PIN shows a length error
 
 - **Test Case ID** — RIB_FUID_003
 - **Title** — Verify short ATM PIN shows the specified length message
@@ -69,7 +63,7 @@
   1. The system displays `label fuidInvalidAtmPinLengthMessage` with exact text “ATM pin should have 4 digits. Please enter a valid ATM pin.” [FR-FUID-004.1, FR-FUID-004.2]
 - **Open items** — None for data design. Verify the form continues to enforce short-PIN validation before any backend authentication during implementation.
 
-## RIB_FUID_004 - Verify expired expiry dates cannot be selected
+## RIB_FUID_004 - Expired card dates are not available for selection
 
 - **Test Case ID** — RIB_FUID_004
 - **Title** — Verify expired expiry dates cannot be selected
@@ -86,7 +80,7 @@
   2. No month before the current month is offered for the current year, so an expired date cannot be selected. [FR-FUID-005.2]
 - **Open items** — None for data. Future-option coverage and the current-year preselection are not separate outcomes in the selected POC.
 
-## RIB_FUID_005 - Verify an unassociated debit card shows the specified Error modal after OTP
+## RIB_FUID_005 - Debit card not linked to the customer shows an error after OTP
 
 - **Test Case ID** — RIB_FUID_005
 - **Title** — Verify an unassociated debit card shows the specified Error modal after OTP
@@ -106,3 +100,22 @@
   2. After the correct OTP is submitted, the system opens an Error modal. [FR-FUID-006.2]
   3. The Error modal displays an error icon, `label loginErrorModalTitle` with title “Error”, `label fuidIncorrectDebitCardMessage` with exact text “Debit card detail is incorrect. Please enter correct details.”, and `label loginOkayButton` with text “Okay”. [FR-FUID-006.3]
 - **Open items** — NEEDS INPUT: provision `fuidInputs.unassociatedCardProfile` in the approved encrypted source and confirm authorized access to the correct OTP channel. Locators must be observed and verified during implementation; none are inferred from the screenshot.
+
+## RIB_FUID_006 - Expiry options follow the selected year
+
+- **Test Case ID** — RIB_FUID_006
+- **Title** — Expiry options follow the selected year
+- **Requirement(s)** — FR-FUID-005.1, USER-FUID-EXP-001.1, USER-FUID-EXP-001.2, USER-FUID-EXP-001.3
+- **Short description** — Verify the expiry-year range and the month options shown for the current year and a future year.
+- **Context** — TEST_ENV=uat, BANK=bandhan, LOCALE=en-in; Bandhan Bank UAT.
+- **Preconditions** — The Forgot User ID Debit Card form is open. Expected years and months are calculated from the current date in India at execution time; no fixed year or month is stored.
+- **Data required** — None. Use the runtime current year and month. Select the earliest available year after the current year for the future-year check.
+- **Steps**
+  1. The user opens the expiry-year options.
+  2. The user selects the current year and opens the expiry-month options.
+  3. The user selects the earliest available future year and opens the expiry-month options.
+- **Expected result**
+  1. The expiry-year dropdown shows every year from the current year through current year plus 10, inclusive, with no missing or extra years. [FR-FUID-005.1, USER-FUID-EXP-001.1]
+  2. For the current year, the expiry-month dropdown shows every month from the current month through December, with no earlier months. [USER-FUID-EXP-001.2]
+  3. For the selected future year, the expiry-month dropdown shows all 12 months from January through December. [USER-FUID-EXP-001.3]
+- **Open items** — Approved by the user on 17 November 2026. The existing role-based expiry controls are reused; their complete option lists must be confirmed during focused execution.

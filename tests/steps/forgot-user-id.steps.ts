@@ -25,16 +25,9 @@ When(
 );
 
 Then(
-  'The user sees the Forgot User ID card number value from {string}',
-  async ({ forgotUserIdVerify, data }, dataKey: string) => {
-    await forgotUserIdVerify.showsCardNumber(getByKey<string>(data, dataKey));
-  },
-);
-
-When(
-  'The user pastes the card sample from {string}',
-  async ({ forgotUserIdPage, data }, dataKey: string) => {
-    await forgotUserIdPage.pasteCardSample(getByKey<string>(data, dataKey));
+  'The user sees {int} digits in the Forgot User ID card number field',
+  async ({ forgotUserIdVerify }, digitCount: number) => {
+    await forgotUserIdVerify.showsCardNumberDigitCount(digitCount);
   },
 );
 
@@ -94,4 +87,36 @@ When('The user opens the Forgot User ID expiry month options', async ({ forgotUs
 
 Then('The user sees no expired Forgot User ID month options for the current year', async ({ forgotUserIdVerify }) => {
   await forgotUserIdVerify.showsNoExpiredMonthOptions();
+});
+
+Then(
+  'The user sees expiry years from the current year through the next 10 years',
+  async ({ forgotUserIdVerify }) => {
+    await forgotUserIdVerify.showsCurrentAndNextTenExpiryYears();
+  },
+);
+
+When(
+  'The user selects the current expiry year from the open options',
+  async ({ forgotUserIdPage }) => {
+    await forgotUserIdPage.selectCurrentExpiryYearFromOpenOptions();
+  },
+);
+
+Then(
+  'The user sees expiry months from the current month through December',
+  async ({ forgotUserIdVerify }) => {
+    await forgotUserIdVerify.showsCurrentAndRemainingExpiryMonths();
+  },
+);
+
+When(
+  'The user selects the earliest future expiry year from the open options',
+  async ({ forgotUserIdPage }) => {
+    await forgotUserIdPage.selectEarliestFutureExpiryYearFromOpenOptions();
+  },
+);
+
+Then('The user sees all 12 expiry months', async ({ forgotUserIdVerify }) => {
+  await forgotUserIdVerify.showsAllExpiryMonths();
 });

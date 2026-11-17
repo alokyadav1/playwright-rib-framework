@@ -23,14 +23,11 @@ export default defineConfig({
   use: {
     baseURL,
     storageState: process.env.AUTH_STATE || undefined,
-    launchOptions: {
-      executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
-    },
     timezoneId: "Asia/Kolkata",
     locale: browserLocale, // same LOCALE value that picks the label file
-    trace: "on",
+    trace: "on-first-retry",
     screenshot: "off",
-    video: "on",
+    video: "on-first-retry",
     permissions: ["geolocation"],
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
