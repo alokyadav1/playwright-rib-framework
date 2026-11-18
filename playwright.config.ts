@@ -17,7 +17,7 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: true,
   retries: 0,
-  workers: "50%",
+  workers: 2,
   timeout: 60_000,
   reporter: [["html", { open: "never" }]],
   use: {
@@ -30,5 +30,20 @@ export default defineConfig({
     video: "on-first-retry",
     permissions: ["geolocation"],
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "automated",
+      grepInvert: /@manual-otp/,
+      teardown: "manual-otp",
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "manual-otp",
+      grep: /@manual-otp/,
+      workers: 1,
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+  ],
 });

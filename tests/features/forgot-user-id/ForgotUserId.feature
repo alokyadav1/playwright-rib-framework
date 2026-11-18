@@ -26,6 +26,7 @@ Feature: Bandhan Bank Forgot User ID
     #     When The user opens the Forgot User ID expiry month options
     #     Then The user sees no expired Forgot User ID month options for the current year
 
+    @manual-otp
     Scenario: RIB_FUID_005 - Debit card not linked to the customer shows an error after OTP
         Given The user opens Forgot User ID from prelogin
         When The user enters the Customer ID from "fuidInputs.unassociatedCardProfile.customerId"

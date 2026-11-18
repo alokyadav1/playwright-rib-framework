@@ -29,6 +29,7 @@ Feature: Bandhan Bank Know Your Customer ID
     And The user submits the OTP
     Then The user sees the Customer ID Error modal "kcidInvalidOtpMessage"
 
+  @manual-otp
   Scenario: RIB_KCID_005 - Correct OTP confirms Customer ID retrieval
     Given The user opens Know Your Customer ID from prelogin
     When The user enters registered Customer ID lookup details

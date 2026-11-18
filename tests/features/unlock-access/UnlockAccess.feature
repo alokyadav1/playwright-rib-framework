@@ -6,6 +6,7 @@ Feature: Bandhan Bank unlock online banking access
     And The user selects Continue for unlock access
     Then The user sees invalid PAN feedback "unlockInvalidPanMessage" below PAN
 
+  @manual-otp
   Scenario: RIB_UNL_002 - Incorrect personal details show an error after a correct OTP
     Given The user opens Unlock Access from prelogin
     When The user enters personal details from "unlockAccess.incorrectPersonalDetails"
@@ -24,6 +25,7 @@ Feature: Bandhan Bank unlock online banking access
     And The user submits the OTP
     Then The user sees the invalid OTP Error modal "loginErrorModalTitle" "loginInvalidOtpMessage" "loginOkayButton"
 
+  @manual-otp
   Scenario: RIB_UNL_004 - User with active online banking sees an information message
     Given The user opens Unlock Access from prelogin
     When The user enters personal details from "unlockAccess.alreadyUnlockedUser"

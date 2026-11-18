@@ -1,6 +1,7 @@
 Feature: Bandhan Bank login
 
 
+  @manual-otp
   Scenario: RIB_LOG_001 - Correct login details and OTP open the Home Dashboard
     Given The user opens the Bandhan Bank login page
     When The user enters the registered User ID from "credentials.registeredUser"
