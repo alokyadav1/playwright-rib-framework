@@ -1,4 +1,4 @@
 {
-  "dateOfBirthInput": "#dateOfBirth",
+  "dateOfBirthInput": "oj-input-date input[role='combobox']",
   "panValidationMsg": "#Pan .oj-user-assistance-inline-container"
 }
