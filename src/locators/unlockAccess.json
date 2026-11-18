@@ -1,4 +1,4 @@
 {
-  "dateOfBirthInput": "input.oj-inputdatetime-input",
+  "dateOfBirthInput": "#dateOfBirth",
   "panValidationMsg": "#Pan .oj-user-assistance-inline-container"
 }
